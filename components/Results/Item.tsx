@@ -3,7 +3,7 @@ import Tippy from "@tippyjs/react";
 import Image from "next/image";
 import React, { ComponentProps, forwardRef } from "react";
 import "tippy.js/themes/material.css";
-import env from "../../env.json";
+import env from "../../.env.json";
 import useIsOverflowed from "../../hooks/useIsOverflowed";
 import Movie from "../../utils/Movie";
 

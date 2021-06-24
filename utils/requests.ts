@@ -1,4 +1,4 @@
-import env from "../env.json";
+import env from "../.env.json";
 
 const API_KEY = env.API_KEY;
 
