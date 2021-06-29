@@ -5,12 +5,13 @@
 @layer base {
   body {
     @apply bg-[#06202A] text-gray-300;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
+      Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+      Helvetica Neue, sans-serif;
   }
 }
 
-.tippy-box[data-theme~="tooltip"] {
+.tippy-box[data-theme~='tooltip'] {
   @apply px-2 py-1 rounded-md bg-green-900 text-white bg-opacity-60 text-center;
 }
 
