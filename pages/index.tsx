@@ -27,6 +27,9 @@ const Home: FC<Props> = ({ results }) => {
 
       {/* Results */}
       <Results {...{ results }} />
+
+      {/* Nav */}
+      <Nav className='mb-10' />
     </div>
   );
 };
