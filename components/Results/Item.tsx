@@ -3,7 +3,6 @@ import Tippy from '@tippyjs/react';
 import Image from 'next/image';
 import React, { ComponentProps, forwardRef } from 'react';
 import 'tippy.js/themes/material.css';
-import env from '../../.env.json';
 import useIsOverflowed from '../../hooks/useIsOverflowed';
 import Movie from '../../utils/Movie';
 
@@ -29,7 +28,7 @@ const ItemResult = forwardRef<
 
     ref,
   ) => {
-    const src = `${env.TMDB_IMAGES_URL}${
+    const src = `${process.env.TMDB_IMAGES_URL}${
       backdrop_path || poster_path
     }`;
 
