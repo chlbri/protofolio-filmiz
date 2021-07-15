@@ -1,6 +1,4 @@
-import env from '../.env.json';
-
-const API_KEY = env.API_KEY;
+const API_KEY = process.env.API_KEY;
 
 const out = {
   fetchTrending: {
