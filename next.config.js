@@ -6,5 +6,8 @@ module.exports = {
       'image.tmdb.org',
     ],
   },
+  env: {
+    TMDB_IMAGES_URL: process.env.TMDB_IMAGES_URL,
+  },
   reactStrictMode: true,
 };

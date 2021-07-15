@@ -3,16 +3,16 @@ import FlipMove from 'react-flip-move';
 import Movie from '../../utils/Movie';
 import ItemResult from './Item';
 
-type Props = { results: Movie[] };
-const Results: FC<Props> = ({ results }) => {
+type Props = { movies: Movie[]|undefined };
+const Movies: FC<Props> = ({ movies }) => {
   return (
     <FlipMove className='px-5 my-10 sm:grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6 justify-center'>
-      {results.map((result) => (
+      {movies!==undefined && movies.map((movie) => (
         // eslint-disable-next-line react/jsx-key
-        <ItemResult key={result.id} result={result} />
+        <ItemResult key={movie.id} result={movie} />
       ))}
     </FlipMove>
   );
 };
 
-export default Results;
+export default Movies;

@@ -1,14 +1,30 @@
-import { GetServerSideProps } from 'next';
+/** @format */
+
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
-import  { FC } from 'react';
+import { useRouter } from 'next/router';
+import { FC } from 'react';
+import useFetch from 'use-http';
 import Header from '../components/Header';
 import Nav from '../components/Nav';
-import Results from '../components/Results';
+import Movies from '../components/Results';
 import Movie from '../utils/Movie';
-import requests from '../utils/requests';
+import requests, { api_key } from '../utils/requests';
 
-type Props = { results: any };
-const Home: FC<Props> = ({ results }) => {
+const useMovies = () => {
+  const genre = useRouter().query?.genre;
+
+  const url = `https://api.themoviedb.org/3/${
+    requests[genre as keyof typeof requests]?.url ||
+    requests.fetchTrending.url
+  }`.replace(api_key, () => process.env.API_KEY!);
+  const { loading, error, data = [] } = useFetch(url, {}, []);
+  return { loading, error, data };
+};
+
+const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  movies,
+}) => {
   return (
     <div>
       <Head>
@@ -26,7 +42,8 @@ const Home: FC<Props> = ({ results }) => {
       <Nav />
 
       {/* Results */}
-      <Results {...{ results }} />
+
+      {movies && <Movies movies={movies} />}
 
       {/* Nav */}
       <Nav className='mb-10' />
@@ -34,37 +51,23 @@ const Home: FC<Props> = ({ results }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> =
-  async (ctx) => {
-    const genre = ctx.query?.genre;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const genre = ctx.query?.genre;
+  const url = `https://api.themoviedb.org/3/${
+    requests[genre as keyof typeof requests]?.url ||
+    requests.fetchTrending.url
+  }`.replace(api_key, () => process.env.API_KEY!);
 
-    const url = `https://api.themoviedb.org/3/${
-      requests[genre as keyof typeof requests]?.url ||
-      requests.fetchTrending.url
-    }`;
+  const movies = await fetch(url)
+    .then((data) => data.json())
+    .then<Movie[]>((data) => data.results)
+    .catch(() => undefined);
 
-    try {
-      const _request = await fetch(url);
-
-      const results = (await _request
-        .json()
-        .then((data) => data?.results)) as Movie[];
-
-      console.log('Great');
-      return {
-        props: {
-          results,
-        },
-      };
-    } catch (err) {
-      console.log('Not Great');
-
-      return {
-        props: {
-          results: null,
-        },
-      };
-    }
+  return {
+    props: {
+      movies,
+    },
   };
+};
 
 export default Home;
