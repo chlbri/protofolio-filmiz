@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import React, { FC } from 'react';
+import  { FC } from 'react';
 import Header from '../components/Header';
 import Nav from '../components/Nav';
 import Results from '../components/Results';
