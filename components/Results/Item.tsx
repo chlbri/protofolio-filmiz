@@ -79,6 +79,7 @@ const ItemResult = forwardRef<
             width={1920}
             height={1080}
             alt={original_title}
+            objectFit="cover"
           />
           <div>
             <p className='truncate max-w-md px-5'>{overview}</p>
