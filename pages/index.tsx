@@ -2,52 +2,43 @@
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { FC } from 'react';
-import useFetch from 'use-http';
+import { FC, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import Header from '../components/Header';
+import Modal from '../components/modal';
 import Nav from '../components/Nav';
 import Movies from '../components/Results';
+import selectedMovie from '../utils/atoms/selectedMovie';
+import show from '../utils/atoms/showModal';
 import Movie from '../utils/Movie';
 import requests, { api_key } from '../utils/requests';
-
-const useMovies = () => {
-  const genre = useRouter().query?.genre;
-
-  const url = `https://api.themoviedb.org/3/${
-    requests[genre as keyof typeof requests]?.url ||
-    requests.fetchTrending.url
-  }`.replace(api_key, () => process.env.API_KEY!);
-  const { loading, error, data = [] } = useFetch(url, {}, []);
-  return { loading, error, data };
-};
 
 const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   movies,
 }) => {
+  const [showModal, setShowModal] = useRecoilState(show);
+  const movie = useRecoilValue(selectedMovie);
+  const onClick = ()=> setShowModal(false)
   return (
-    <div>
-      <Head>
-        <title>Hulu 2.0</title>
-        <meta
-          name='description'
-          content='A copy of Hulu for my porotofolio (@chlbri)'
-        />
-      </Head>
+    <>
+      <div>
+        {/* Header */}
+        <Header />
 
-      {/* Header */}
-      <Header />
+        {/* Nav */}
+        <Nav />
 
-      {/* Nav */}
-      <Nav />
+        {/* Results */}
 
-      {/* Results */}
+        {movies && <Movies movies={movies} />}
 
-      {movies && <Movies movies={movies} />}
-
-      {/* Nav */}
-      <Nav className='mb-10' />
-    </div>
+        {/* Nav */}
+        <Nav className='mb-10' />
+      </div>
+      {showModal && !!movie ? (
+        <Modal {...{onClick, movie}} />
+      ) : null}
+    </>
   );
 };
 
@@ -56,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const url = `https://api.themoviedb.org/3/${
     requests[genre as keyof typeof requests]?.url ||
     requests.fetchTrending.url
-  }`.replace(api_key, () => process.env.API_KEY!);
+  }&language=fr`.replace(api_key, () => process.env.TMDB_API_KEY!);
 
   const movies = await fetch(url)
     .then((data) => data.json())

@@ -2,11 +2,11 @@ export const api_key = "$API$";
 
 const out = {
   fetchTrending: {
-    title: 'Trending',
+    title: 'Tendance',
     url: `trending/movie/week?api_key=${api_key}&sort_by=popularity.desc`,
   },
   fetchTopRated: {
-    title: 'Top Rated',
+    title: 'Les mieux notés',
     url: `movie/top_rated?api_key=${api_key}&sort_by=popularity.desc`,
   },
   fetchActionsMovies: {
@@ -14,19 +14,19 @@ const out = {
     url: `discover/movie?api_key=${api_key}&with_genres=28`,
   },
   fetchComedyMovies: {
-    title: 'Comedy',
+    title: 'Comédie',
     url: `discover/movie?api_key=${api_key}&with_genres=35`,
   },
   fetchHorrorMovies: {
-    title: 'Horror',
+    title: 'Horreur',
     url: `discover/movie?api_key=${api_key}&with_genres=27`,
   },
   fetchRomanceMovies: {
-    title: 'Romance',
+    title: 'Amour',
     url: `discover/movie?api_key=${api_key}&with_genres=10749`,
   },
   fetchMystery: {
-    title: 'Mystery',
+    title: 'Mystère',
     url: `discover/movie?api_key=${api_key}&with_genres=9648`,
   },
   fetchSciFi: {
@@ -42,7 +42,7 @@ const out = {
     url: `discover/movie?api_key=${api_key}&with_genres=16`,
   },
   fetchTV: {
-    title: 'TV Movies',
+    title: 'Téléfilm',
     url: `discover/movie?api_key=${api_key}&with_genres=10770`,
   },
 };
