@@ -1,12 +1,17 @@
 # package.json repo à changer
 
 tasks:
-  - name: ts-node install globally
-    init: npm install -g ts-node
 
   - name: install all dependencies
-    init: yarn
-
+    init: |
+      npm install -g ts-node
+      yarn add -D typescript
+      yarn add -D @typescript-eslint/eslint-plugin
+      yarn add -D @typescript-eslint/parser
+      yarn add -D eslint
+      yarn add -D jest-cucumber
+      yarn
+      
 vscode:
   extensions:
     - ms-azuretools.vscode-docker
