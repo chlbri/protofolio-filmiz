@@ -1,11 +1,11 @@
-import React, { ComponentProps, FC } from 'react';
+/** @format */
+
+import { ComponentProps, FC } from 'react';
 
 export type ItemProps = {
   title: string;
   Icon: (props: ComponentProps<'svg'>) => JSX.Element;
 };
-
-type c = ComponentProps<'div'>;
 
 export const Item: FC<ComponentProps<'div'> & ItemProps> = ({
   title,
