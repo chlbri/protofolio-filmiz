@@ -1,24 +1,24 @@
+/** @format */
+
 import { useRouter } from 'next/dist/client/router';
-import React, { ComponentProps, FC } from 'react';
+import { ComponentProps, FC } from 'react';
 
 export type ItemProps = {
   title: string;
-  url: string;
 };
 
-const Item: FC<ComponentProps<'div'> & ItemProps> = ({
-  id,
-  title,
-  url,
-}) => {
+const Item: FC<ComponentProps<'div'> & ItemProps> = ({ id, title }) => {
   const route = `/?genre=${id}`;
   const router = useRouter();
   const pink =
     route === router.asPath ||
-    (router.asPath === '/' && title === 'Trending');
-  let className = `last:pr-24 cursor-pointer  transition duration-100 transform hover:scale-125 ${
+    (router.asPath === '/' && id === 'fetchTrending');
+  console.log('Full :', router);
+  console.log('esPath :', router.asPath);
+
+  const className = `${
     pink ? 'text-pink-600' : 'hover:text-white'
-  } active:text-red-400`;
+  } last:pr-24 cursor-pointer  transition duration-100 transform hover:scale-125  active:text-red-400`;
 
   return (
     <h2
@@ -33,4 +33,3 @@ const Item: FC<ComponentProps<'div'> & ItemProps> = ({
 };
 
 export default Item;
-
