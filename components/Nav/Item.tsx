@@ -14,7 +14,7 @@ const Item: FC< ItemProps> = ({
   const router = useRouter();
   const pink =
     route === router.asPath ||
-    (title === 'Trending');
+    ((router.asPath === '' || router.asPath === '/') && title === 'Trending');
   let className = `last:pr-24 cursor-pointer  transition duration-100 transform hover:scale-125 ${
     pink ? 'text-pink-600' : 'hover:text-white'
   } active:text-red-400`;
