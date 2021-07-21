@@ -2,6 +2,7 @@
 
 import { ThumbUpIcon } from '@heroicons/react/outline';
 import { FC, useRef } from 'react';
+import isDivContainsMouse from '../hooks/isDivContainsMouse';
 import Movie from '../utils/Movie';
 
 type Props = {
@@ -20,7 +21,7 @@ const Modal: FC<Props> = ({ onClick, movie }) => {
     <div
       onClick={(e) => {
         e.preventDefault();
-        if (!ref.current?.contains(e.currentTarget)) onClick();
+        if (!isDivContainsMouse(ref, e)) onClick();
       }}
     >
       <div
