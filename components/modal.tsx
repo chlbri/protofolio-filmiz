@@ -25,7 +25,7 @@ const Modal: FC<Props> = ({ onClick, movie }) => {
     >
       <div
         ref={ref}
-        className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'
+        className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none max-h-screen'
       >
         <div className='bg-[#06202A] relative w-auto my-6 mx-auto max-w-3xl text-white rounded-2xl'>
           {/*content*/}
@@ -47,7 +47,7 @@ const Modal: FC<Props> = ({ onClick, movie }) => {
                 <ThumbUpIcon className='h-5 mx-2' /> {movie.vote_count}
               </p>
               <button
-                className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
+                className='truncate text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
                 {...{ type, onClick }}
               >
                 Fermer
