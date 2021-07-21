@@ -1,0 +1,33 @@
+# package.json repo à changer
+
+tasks:
+  - name: ts-node install globally
+    init: npm install -g ts-node
+
+  - name: install all dependencies
+    init: |
+      yarn add -D typescript
+      yarn add -D @typescript-eslint/eslint-plugin
+      yarn add -D @typescript-eslint/parser
+      yarn add -D eslint
+      yarn add -D jest-cucumber
+      yarn
+  
+vscode:
+  extensions:
+    - ms-azuretools.vscode-docker
+    - ms-ceintl.vscode-language-pack-fr
+    - github.vscode-pull-request-github
+    - eamodio.gitlens
+    - graphql.vscode-graphql
+    - kavod-io.vscode-jest-test-adapter
+    - pkief.material-icon-theme
+    - esbenp.prettier-vscode
+    - yatki.vscode-surround
+    - bradlc.vscode-tailwindcss
+    - hbenl.vscode-test-explorer
+    - fabiospampinato.vscode-todo-plus
+    - dbaeumer.vscode-eslint
+    - tabnine.tabnine-vscode
+    - codezombiech.gitignore
+    - foxundermoon.shell-format
