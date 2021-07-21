@@ -5,14 +5,8 @@ tasks:
     init: npm install -g ts-node
 
   - name: install all dependencies
-    init: |
-      yarn add -D typescript
-      yarn add -D @typescript-eslint/eslint-plugin
-      yarn add -D @typescript-eslint/parser
-      yarn add -D eslint
-      yarn add -D jest-cucumber
-      yarn
-  
+    init: yarn
+
 vscode:
   extensions:
     - ms-azuretools.vscode-docker
