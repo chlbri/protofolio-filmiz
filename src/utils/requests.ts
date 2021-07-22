@@ -1,4 +1,4 @@
-export const api_key = "$API$";
+export const api_key = process.env.TMDB_API_KEY!;
 
 const out = {
   fetchTrending: {
@@ -45,6 +45,6 @@ const out = {
     title: 'Téléfilm',
     url: `discover/movie?api_key=${api_key}&with_genres=10770`,
   },
-};
+} as const;
 
 export default out;

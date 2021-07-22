@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const url = `https://api.themoviedb.org/3/${
     requests[genre as keyof typeof requests]?.url ||
     requests.fetchTrending.url
-  }&language=fr`.replace(api_key, () => process.env.TMDB_API_KEY!);
+  }&language=fr`/* .replace(api_key, () => process.env.TMDB_API_KEY!) */;
 
   const movies = await fetch(url)
     .then((data) => data.json())
