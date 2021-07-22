@@ -1,20 +1,19 @@
 /** @format */
 
 import { useRouter } from 'next/dist/client/router';
-import { ComponentProps, FC } from 'react';
+import { FC } from 'react';
+import requests from '../../lib/requests';
 
 export type ItemProps = {
   title: string;
+  genre: keyof typeof requests;
 };
 
-const Item: FC<ComponentProps<'div'> & ItemProps> = ({ id, title }) => {
-  const route = `/?genre=${id}`;
+const Item: FC<ItemProps> = ({ genre, title }) => {
   const router = useRouter();
-  const pink =
-    route === router.asPath ||
-    (router.asPath === '/' && id === 'fetchTrending');
-  console.log('Full :', router);
-  console.log('esPath :', router.asPath);
+  const param = router.query.genre;
+
+  const pink = genre === param || (!param && genre === 'fetchTrending');
 
   const className = `${
     pink ? 'text-pink-600' : 'hover:text-white'
@@ -23,7 +22,22 @@ const Item: FC<ComponentProps<'div'> & ItemProps> = ({ id, title }) => {
   return (
     <h2
       onClick={() => {
-        router.push(route);
+        if (router.query.genre === genre) {
+          return;
+        }
+        if (!router.query.genre && genre === 'fetchTrending') {
+          return;
+        }
+        if (genre === 'fetchTrending') {
+          router.push('/');
+        } else {
+          router.push({
+            pathname: '/',
+            query: {
+              genre: genre,
+            },
+          });
+        }
       }}
       className={className}
     >

@@ -1,24 +1,21 @@
 /** @format */
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import Head from 'next/head';
-import { FC, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { FC } from 'react';
+import { useRecoilState } from 'recoil';
 import Header from '../components/Header';
 import Modal from '../components/modal';
 import Nav from '../components/Nav';
 import Movies from '../components/Results';
-import selectedMovie from '../utils/atoms/selectedMovie';
-import show from '../utils/atoms/showModal';
-import Movie from '../utils/Movie';
-import requests, { api_key } from '../utils/requests';
+import selectedMovie from '../lib/atoms/selectedMovie';
+import Movie from '../lib/Movie';
+import requests from '../lib/requests';
 
 const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   movies,
 }) => {
-  const [showModal, setShowModal] = useRecoilState(show);
-  const movie = useRecoilValue(selectedMovie);
-  const onClick = ()=> setShowModal(false)
+  const [movie, setMovie] = useRecoilState(selectedMovie);
+  const onClick = () => setMovie(undefined);
   return (
     <>
       <div>
@@ -35,24 +32,26 @@ const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
         {/* Nav */}
         <Nav className='mb-10' />
       </div>
-      {showModal && !!movie ? (
-        <Modal {...{onClick, movie}} />
-      ) : null}
+      {!!movie ? <Modal {...{ onClick, movie }} /> : null}
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  // ctx.params
+
   const genre = ctx.query?.genre;
+  const lang = ctx.query?.lang;
   const url = `https://api.themoviedb.org/3/${
-    requests[genre as keyof typeof requests]?.url ||
-    requests.fetchTrending.url
-  }&language=fr`/* .replace(api_key, () => process.env.TMDB_API_KEY!) */;
+    requests[(genre as keyof typeof requests) ?? 'fetchTrending']!.url
+  }&language=${
+    lang ?? 'fr'
+  }`; /* .replace(api_key, () => process.env.TMDB_API_KEY!) */
 
   const movies = await fetch(url)
     .then((data) => data.json())
     .then<Movie[]>((data) => data.results)
-    .catch(() => undefined);
+    .catch(() => null);
 
   return {
     props: {
