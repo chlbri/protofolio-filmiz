@@ -33,11 +33,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           const genre = ctx.genre;
           if (ev.type === 'changeLanguage') {
             const lang = ev.value;
-            const query = !genre
-              ? {
-                  lang,
-                }
-              : { genre, lang };
+            const query =
+              genre === 'fetchTrending'
+                ? {
+                    lang,
+                  }
+                : { genre, lang };
             return await router.push({
               pathname: '/',
               query,
