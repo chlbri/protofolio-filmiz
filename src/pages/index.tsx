@@ -1,21 +1,17 @@
 /** @format */
 
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { FC } from 'react';
-import { useRecoilState } from 'recoil';
-import Header from '../components/Header';
-import Modal from '../components/modal';
-import Nav from '../components/Nav';
-import Movies from '../components/Results';
-import selectedMovie from '../lib/atoms/selectedMovie';
-import Movie from '../lib/Movie';
-import requests from '../lib/requests';
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { FC } from "react";
+import Header from "../components/Header";
+import Modal from "../components/modal";
+import Nav from "../components/Nav";
+import Movies from "../components/Results";
+import Movie from "../lib/Movie";
+import requests from "../lib/requests";
 
 const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   movies,
 }) => {
-  const [movie, setMovie] = useRecoilState(selectedMovie);
-  const onClick = () => setMovie(undefined);
   return (
     <>
       <div>
@@ -30,9 +26,9 @@ const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
         {movies && <Movies movies={movies} />}
 
         {/* Nav */}
-        <Nav className='mb-10' />
+        <Nav className="mb-10" />
       </div>
-      {!!movie ? <Modal {...{ onClick, movie }} /> : null}
+      <Modal />
     </>
   );
 };
@@ -43,9 +39,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const genre = ctx.query?.genre;
   const lang = ctx.query?.lang;
   const url = `https://api.themoviedb.org/3/${
-    requests[(genre as keyof typeof requests) ?? 'fetchTrending']!.url
+    requests[(genre as keyof typeof requests) ?? "fetchTrending"]!.url
   }&language=${
-    lang ?? 'fr'
+    lang ?? "fr"
   }`; /* .replace(api_key, () => process.env.TMDB_API_KEY!) */
 
   const movies = await fetch(url)

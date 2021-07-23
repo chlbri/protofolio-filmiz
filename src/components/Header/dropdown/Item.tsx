@@ -1,37 +1,29 @@
-import { Menu } from '@headlessui/react';
-import { useRouter } from 'next/dist/client/router';
-import { FC } from 'react';
+import { Menu } from "@headlessui/react";
+import { useRouter } from "next/dist/client/router";
+import { FC, useContext } from "react";
+import Context from "../../../lib/context";
 
 type Props = {
-  lang: string;
+  value: string;
 };
 
-const ItemDrop: FC<Props> = ({ lang }) => {
-  const router = useRouter();
-  const query = !!router.query.genre
-    ? {
-        genre: router.query.genre,
-        lang,
-      }
-    : { lang };
+const ItemDrop: FC<Props> = ({ value }) => {
+  const [_, send] = useContext(Context);
 
   const onClick = () => {
-    router.push({
-      pathname: '/',
-      query,
-    });
+    send({ type: "changeLanguage", value });
   };
   return (
-    <div className='py-1 w-4 sm:w-20'>
-      <Menu.Item>
+    <div className="py-1 w-4 sm:w-20">
+      <Menu.Item as="div">
         {({ active }) => (
           <a
             {...{ onClick }}
             className={`${
-              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+              active ? "bg-gray-100 text-gray-900" : "text-gray-700"
             }  block py-2  text-center`}
           >
-            {lang}
+            {value}
           </a>
         )}
       </Menu.Item>
