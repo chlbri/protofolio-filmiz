@@ -1,25 +1,25 @@
 /** @format */
 
-import { useMachine } from "@xstate/react";
-import type { AppProps } from "next/app";
-import { useRouter } from "next/dist/client/router";
-import Head from "next/head";
-import React from "react";
-import { assign } from "xstate";
-import Provider from "../components/providers";
-import { machine } from "../lib/context";
-import requests from "../lib/requests";
-import "../styles/globals.css";
+import { useMachine } from '@xstate/react';
+import type { AppProps } from 'next/app';
+import { useRouter } from 'next/dist/client/router';
+import Head from 'next/head';
+import React from 'react';
+import { assign } from 'xstate';
+import Provider from '../components/providers';
+import { machine } from '../lib/context';
+import requests from '../lib/requests';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   // #region Machine Config
   const router = useRouter();
   const queryGenre = (
-    !router.query.genre ? "fetchTrending" : router.query.genre
+    !router.query.genre ? 'fetchTrending' : router.query.genre
   ) as keyof typeof requests;
 
   const queryLanguage = (
-    !router.query.lang ? "fr" : router.query.lang
+    !router.query.lang ? 'fr' : router.query.lang
   ) as string;
 
   const [state, send] = useMachine(
@@ -38,14 +38,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                   lang,
                 }
               : { genre, lang };
-            await router
-              .push({
-                pathname: '/',
-                query,
-              })
-              .then(() => {
-                console.log(genre);
-              });
+            return await router.push({
+              pathname: '/',
+              query,
+            });
           }
         },
         fetch: async (ctx, ev) => {

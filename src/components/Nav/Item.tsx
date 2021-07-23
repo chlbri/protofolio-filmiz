@@ -24,7 +24,6 @@ const Item: FC<ItemProps> = ({ genre, title }) => {
   return (
     <h2
       onClick={() => {
-        console.log(state.context.language);
         send({ type: "fetch", value: genre });
       }}
       className={className}
