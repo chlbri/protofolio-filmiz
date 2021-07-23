@@ -3,11 +3,16 @@
 import { ThumbUpIcon } from "@heroicons/react/outline";
 import Tippy from "@tippyjs/react";
 import Image from "next/image";
-import React, { ComponentProps, forwardRef } from "react";
-import { useSetRecoilState } from "recoil";
+import React, {
+  ComponentProps,
+  forwardRef,
+  memo,
+  useContext,
+  useEffect,
+} from "react";
 import "tippy.js/themes/material.css";
 import useIsOverflowed from "../../hooks/useIsOverflowed";
-import selectedMovie from "../../lib/atoms/selectedMovie";
+import Context from "../../lib/context";
 import Movie from "../../lib/Movie";
 
 type Props = { result: Movie };
@@ -29,14 +34,18 @@ const ItemResult = forwardRef<HTMLDivElement, ComponentProps<"div"> & Props>(
       vote_count,
     } = result;
 
+    const [state, send] = useContext(Context);
     const src = `${process.env.TMDB_IMAGES_URL}${backdrop_path || poster_path}`;
 
     const [disabled, yRef] = useIsOverflowed();
-    const setSelectedMovie = useSetRecoilState(selectedMovie);
 
     const onClick = () => {
-      setSelectedMovie(result);
+      send({ type: "select", value: result });
     };
+
+    useEffect(() => {
+      console.log("Selected :", state.context.selected?.id);
+    }, [state.context.selected]);
 
     return (
       <>
@@ -83,4 +92,4 @@ const ItemResult = forwardRef<HTMLDivElement, ComponentProps<"div"> & Props>(
 
 ItemResult.displayName = "ItemResult";
 
-export default ItemResult;
+export default memo(ItemResult);

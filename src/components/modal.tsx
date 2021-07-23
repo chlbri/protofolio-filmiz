@@ -1,27 +1,26 @@
 /** @format */
 
 import { ThumbUpIcon } from "@heroicons/react/outline";
-import { FC, useRef } from "react";
+import { FC, useContext, useRef } from "react";
 import isDivContainsMouse from "../hooks/isDivContainsMouse";
+import Context from "../lib/context";
 import Movie from "../lib/Movie";
 
-type Props = {
-  onClick: () => void;
-  movie: Movie;
-};
+const Modal: FC = () => {
+  const [state, send] = useContext(Context);
+  const movie = state.context.selected;
 
-const Modal: FC<Props> = ({ onClick, movie }) => {
+  const onClick = () => send({ type: "select", value: undefined });
+
   const type = "button";
   const ref = useRef<HTMLDivElement>(null);
-  const overview =
-    !movie.overview || movie.overview.trim() === ""
-      ? "Pas de description"
-      : movie.overview;
-  return (
+
+  return !movie ? null : (
     <div
       onClick={(e) => {
         e.preventDefault();
-        if (!isDivContainsMouse(ref, e)) onClick();
+        if (!isDivContainsMouse(ref, e))
+          send({ type: "select", value: undefined });
       }}
     >
       <div
@@ -39,7 +38,11 @@ const Modal: FC<Props> = ({ onClick, movie }) => {
             </div>
             {/*body*/}
             <div className="relative p-2 max-h-96 md:max-h-screen overflow-y-auto">
-              <p className="my-3 px-5 md:text-lg leading-relaxed">{overview}</p>
+              <p className="my-3 px-5 md:text-lg leading-relaxed">
+                {!movie.overview || movie.overview.trim() === ""
+                  ? "Pas de description"
+                  : movie.overview}
+              </p>
             </div>
             {/*footer*/}
             <div className="flex items-center justify-between  md:pl-10 pr-4 md:pr-10 border-t border-solid border-blueGray-200 pt-3 rounded-b text-sm md:text-lg pb-4">

@@ -1,46 +1,46 @@
 const out = {
   fetchTrending: {
-    title: 'Tendance',
+    title: "Tendance",
     url: `trending/movie/week?api_key=${process.env.TMDB_API_KEY}&sort_by=popularity.desc`,
   },
   fetchTopRated: {
-    title: 'Les mieux notés',
+    title: "Les mieux notés",
     url: `movie/top_rated?api_key=${process.env.TMDB_API_KEY}&sort_by=popularity.desc`,
   },
   fetchActionsMovies: {
-    title: 'Action',
+    title: "Action",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=28`,
   },
   fetchComedyMovies: {
-    title: 'Comédie',
+    title: "Comédie",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=35`,
   },
   fetchHorrorMovies: {
-    title: 'Horreur',
+    title: "Horreur",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=27`,
   },
   fetchRomanceMovies: {
-    title: 'Amour',
+    title: "Amour",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=10749`,
   },
   fetchMystery: {
-    title: 'Mystère',
+    title: "Mystère",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=9648`,
   },
   fetchSciFi: {
-    title: 'Sci-Fi',
+    title: "Sci-Fi",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=878`,
   },
   fetchWestern: {
-    title: 'Western',
+    title: "Western",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=37`,
   },
   fetchAnimation: {
-    title: 'Animation',
+    title: "Animation",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=16`,
   },
   fetchTV: {
-    title: 'Téléfilm',
+    title: "Téléfilm",
     url: `discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=10770`,
   },
 } as const;

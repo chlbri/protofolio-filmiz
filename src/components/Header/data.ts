@@ -6,15 +6,15 @@ import {
   SearchIcon,
   UserIcon,
   SpeakerphoneIcon,
-} from '@heroicons/react/outline';
-import { nanoid } from 'nanoid';
-import { ItemProps } from './Item';
+} from "@heroicons/react/outline";
+import { nanoid } from "nanoid";
+import { ItemProps } from "./Item";
 
 export const variants: (ItemProps & { key: string })[] = [
-  { key: nanoid(), title: 'ACCUEIL', Icon: HomeIcon },
+  { key: nanoid(), title: "ACCUEIL", Icon: HomeIcon },
   {
     key: nanoid(),
-    title: 'TENDANCES',
+    title: "TENDANCES",
     Icon: LightningBoltIcon,
   },
   // { key: nanoid(), title: 'VERIFIED', Icon: BadgeCheckIcon },
@@ -28,4 +28,4 @@ export const variants: (ItemProps & { key: string })[] = [
   // { key: nanoid(), title: 'LANGUE', Icon: SpeakerphoneIcon },
 ];
 
-export const langs = ['fr', 'en'];
+export const langs = ["fr", "en"];

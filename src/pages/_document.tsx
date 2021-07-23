@@ -6,7 +6,7 @@ import Document, {
   Html,
   Main,
   NextScript,
-} from "next/document";
+} from 'next/document';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -18,12 +18,11 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="icon" href="/favicon.ico" />
-          {/* eslint-disable-next-line @next/next/no-title-in-document-head */}
+          <link rel='icon' href='/favicon.ico' />
 
           <meta
-            name="description"
-            content="A place to find a great film to watch"
+            name='description'
+            content='A place to find a great film to watch'
           />
         </Head>
         <body>
