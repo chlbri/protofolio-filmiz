@@ -75,9 +75,7 @@ const ProviderMachine: FC<Props> = ({ key, children }) => {
         }
       },
     },
-    logger: (...args) => {
-      args.forEach(console.log);
-    },
+  
   });
 
   // #endregion
