@@ -1,18 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import useResize from './useResize';
 
 const useIsOverflowed = () => {
   const [disabled, setDisabled] = useState(true);
-
   const ref = useRef<any>();
 
-  useEffect(() => {
+  const update = useCallback(() => {
+    setDisabled(ref.current.scrollWidth <= ref.current.clientWidth);
+  }, [setDisabled]);
+
+  useLayoutEffect(() => {
     if (!ref.current) {
       return;
     }
-    const out = ref.current.scrollWidth <= ref.current.clientWidth;
+    update();
+  }, [update]);
 
-    setDisabled(out);
-  }, [ref, setDisabled]);
+  useResize(update, ref.current);
   return [ref, disabled, setDisabled] as const;
 };
 
