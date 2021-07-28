@@ -13,7 +13,6 @@ const useIsOverflowed = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   const update = useCallback(() => {
-    console.log('Updated');
     const out =
       !!ref.current && ref.current.scrollWidth <= ref.current.clientWidth;
     setDisabled(out);
@@ -25,19 +24,6 @@ const useIsOverflowed = () => {
     }
     update();
   }, [update]);
-
-  useLayoutEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    function updt() {
-      console.log('Hover !!!! and CO&');
-      update();
-    }
-    ref.current!.addEventListener('mouseover', updt);
-    return ref.current!.removeEventListener('mouseover', updt);
-  }, [update, ref]);
 
   useResize(update, !!ref.current);
   return [ref, disabled, setDisabled] as const;
