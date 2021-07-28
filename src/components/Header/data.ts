@@ -1,16 +1,8 @@
-import {
-  HomeIcon,
-  LightningBoltIcon,
-  BadgeCheckIcon,
-  CollectionIcon,
-  SearchIcon,
-  UserIcon,
-  SpeakerphoneIcon,
-} from "@heroicons/react/outline";
+import { HomeIcon, LightningBoltIcon } from "@heroicons/react/outline";
 import { nanoid } from "nanoid";
-import { ItemProps } from "./Item";
+import { HeaderItemProps } from "./Item";
 
-export const variants: (ItemProps & { key: string })[] = [
+export const variants: (HeaderItemProps & { key: string })[] = [
   { key: nanoid(), title: "ACCUEIL", Icon: HomeIcon },
   {
     key: nanoid(),

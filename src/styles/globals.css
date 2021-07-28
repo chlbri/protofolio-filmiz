@@ -5,9 +5,9 @@
 @layer base {
   body {
     @apply bg-[#06202A] text-gray-300;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-      Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-      Helvetica Neue, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+      Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+      sans-serif;
   }
 }
 
@@ -26,5 +26,5 @@
 }
 
 #modal {
-  @apply bg-[#06202A]
+  @apply bg-[#06202A];
 }

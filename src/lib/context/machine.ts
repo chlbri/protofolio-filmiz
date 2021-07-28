@@ -1,35 +1,5 @@
-import { createContext } from "react";
-import {
-  assign,
-  createMachine,
-  DoneInvokeEvent,
-  EventData,
-  interpret,
-  SCXML,
-  SingleOrArray,
-  State,
-  Event,
-} from "xstate";
-import { raise } from "xstate/lib/actions";
-import { Interpreter } from "xstate/lib/interpreter";
-import Movie from "./Movie";
-import requests from "./requests";
-
-type TContext = {
-  selected: Movie | undefined;
-  genre: keyof typeof requests;
-  movies: Movie[];
-  language: string;
-};
-
-type TEvent =
-  | {
-      type: "fetch";
-      value: keyof typeof requests;
-    }
-  | { type: "select"; value: Movie | undefined }
-  | { type: "changeLanguage"; value: string }
-  | { type: "reset" | "hardReset" | "resetSelection" };
+import { assign, createMachine } from "xstate";
+import { TContext, TEvent } from "./types";
 
 export const machine = createMachine<TContext, TEvent>(
   {
@@ -49,24 +19,39 @@ export const machine = createMachine<TContext, TEvent>(
               changeLanguage: 'changing',
             },
           },
-
           changing: {
-            entry: 'changeLanguage',
             invoke: {
               src: 'changeLanguage',
-              onDone: 'success',
+              onDone: {
+                target: 'success',
+                actions: assign({ language: (_, event) => event.data }),
+              },
+              onError: 'failure',
             },
           },
 
           success: {
             on: {
-              reset: {
+              resetLanguage: {
                 target: 'idle',
                 actions: 'resetLanguage',
               },
               hardReset: {
                 target: 'idle',
-                actions: 'resetSelection',
+                actions: 'resetLanguage',
+              },
+              changeLanguage: 'changing',
+            },
+          },
+          failure: {
+            on: {
+              resetLanguage: {
+                target: 'idle',
+                actions: 'resetLanguage',
+              },
+              hardReset: {
+                target: 'idle',
+                actions: 'resetLanguage',
               },
               changeLanguage: 'changing',
             },
@@ -122,10 +107,6 @@ export const machine = createMachine<TContext, TEvent>(
           },
           selected: {
             on: {
-              reset: {
-                target: 'idle',
-                actions: 'resetSelection',
-              },
               resetSelection: {
                 target: 'idle',
                 actions: 'resetSelection',
@@ -172,36 +153,3 @@ export const machine = createMachine<TContext, TEvent>(
     },
   },
 );
-
-const inter = interpret(machine).start();
-
-const Context = createContext<ContextInterpreter>([
-  inter.initialState,
-  inter.send,
-]);
-
-export type ContextInterpreter = readonly [
-  State<
-    TContext,
-    TEvent,
-    any,
-    {
-      value: any;
-      context: TContext;
-    }
-  >,
-  (
-    event: SingleOrArray<Event<TEvent>> | SCXML.Event<TEvent>,
-    payload?: EventData | undefined
-  ) => State<
-    TContext,
-    TEvent,
-    any,
-    {
-      value: any;
-      context: TContext;
-    }
-  >
-];
-
-export default Context;
