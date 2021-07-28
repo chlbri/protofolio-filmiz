@@ -1,21 +1,19 @@
-import { useState, createRef, useEffect } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-export default function useIsOverflowed() {
+const useIsOverflowed = () => {
   const [disabled, setDisabled] = useState(true);
 
-  const ref = createRef<
-    HTMLDivElement &
-      HTMLInputElement &
-      HTMLSpanElement &
-      HTMLParagraphElement &
-      HTMLAllCollection
-  >();
+  const ref = useRef<any>();
 
   useEffect(() => {
     if (!ref.current) {
       return;
     }
-    setDisabled(ref.current.scrollWidth <= ref.current.clientWidth);
+    const out = ref.current.scrollWidth <= ref.current.clientWidth;
+
+    setDisabled(out);
   }, [ref, setDisabled]);
-  return [disabled, ref] as const;
-}
+  return [ref, disabled, setDisabled] as const;
+};
+
+export default useIsOverflowed;

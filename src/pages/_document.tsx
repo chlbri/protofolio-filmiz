@@ -1,5 +1,3 @@
-/** @format */
-
 import Document, {
   DocumentContext,
   Head,
@@ -19,7 +17,6 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel='icon' href='/favicon.ico' />
-
           <meta
             name='description'
             content='A place to find a great film to watch'

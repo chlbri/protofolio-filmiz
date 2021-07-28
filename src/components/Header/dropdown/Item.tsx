@@ -1,26 +1,25 @@
-import { Menu } from "@headlessui/react";
-import { useRouter } from "next/dist/client/router";
-import { FC, useContext } from "react";
-import Context from "../../../lib/context";
+import { Menu } from '@headlessui/react';
+import { FC } from 'react';
+import { useContext } from '../../../lib/context';
 
 type Props = {
   value: string;
 };
 
-const ItemDrop: FC<Props> = ({ value }) => {
-  const [_, send] = useContext(Context);
+const DropdownMenuItem: FC<Props> = ({ value }) => {
+  const [_, send] = useContext();
 
   const onClick = () => {
-    send({ type: "changeLanguage", value });
+    send({ type: 'changeLanguage', value });
   };
   return (
-    <div className="py-1 w-4 sm:w-20">
-      <Menu.Item as="div">
+    <div className='py-1 w-4 sm:w-20'>
+      <Menu.Item as='div'>
         {({ active }) => (
           <a
             {...{ onClick }}
             className={`${
-              active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
             }  block py-2  text-center`}
           >
             {value}
@@ -31,4 +30,4 @@ const ItemDrop: FC<Props> = ({ value }) => {
   );
 };
 
-export default ItemDrop;
+export default DropdownMenuItem;
