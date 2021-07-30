@@ -7,7 +7,7 @@ import {
   InterpreterOptions,
   MachineOptions,
   StateMachine,
-  Typestate
+  Typestate,
 } from "xstate";
 import { ContextType } from "./types";
 
@@ -17,20 +17,16 @@ export function usePrepareMachineContext<
   TTypestate extends Typestate<TContext> = {
     value: any;
     context: TContext;
-  },
+  }
 >(
   machine: MaybeLazy<StateMachine<TContext, any, TEvent, TTypestate>>,
   options?: Partial<InterpreterOptions> &
     Partial<UseMachineOptions<TContext, TEvent>> &
-    Partial<MachineOptions<TContext, TEvent>>,
+    Partial<MachineOptions<TContext, TEvent>>
 ) {
   const [state, send, serviceMachine] = useMachine(machine, options);
-  const service = omit(serviceMachine, 'send', 'sender', 'state');
-  return [state, send, service] as ContextType<
-    TContext,
-    TEvent,
-    TTypestate
-  >;
+  const service = omit(serviceMachine, "send", "sender", "state");
+  return [state, send, service] as ContextType<TContext, TEvent, TTypestate>;
 }
 
 export function useMachineContext<
@@ -39,9 +35,9 @@ export function useMachineContext<
   TTypestate extends Typestate<TContext> = {
     value: any;
     context: TContext;
-  },
+  }
 >(ctx: Context<ContextType<TContext, TEvent, TTypestate>>) {
   const out = useContext(ctx);
-  if (!out) throw new Error('machine cannot be undefined');
+  if (!out) throw new Error("machine cannot be undefined");
   return out;
 }

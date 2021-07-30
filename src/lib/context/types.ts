@@ -11,12 +11,12 @@ export type TContext = {
 
 export type TEvent =
   | {
-      type: 'fetch';
+      type: "fetch";
       value: keyof typeof requests;
     }
-  | { type: 'select'; value: Movie | undefined }
-  | { type: 'changeLanguage'; value: string }
-  | { type: 'resetLanguage' | 'hardReset' | 'resetSelection' };
+  | { type: "select"; value: Movie | undefined }
+  | { type: "changeLanguage"; value: string }
+  | { type: "resetLanguage" | "hardReset" | "resetSelection" };
 
 export type ContextType<
   TContext,
@@ -24,14 +24,14 @@ export type ContextType<
   TTypestate extends Typestate<TContext> = {
     value: any;
     context: TContext;
-  },
+  }
 > =
   | [
       State<TContext, TEvent, any, TTypestate>,
-      Interpreter<TContext, any, TEvent, TTypestate>['send'],
+      Interpreter<TContext, any, TEvent, TTypestate>["send"],
       Omit<
         Interpreter<TContext, any, TEvent, TTypestate>,
-        'send' | 'sender' | 'state'
-      >,
+        "send" | "sender" | "state"
+      >
     ]
   | undefined;

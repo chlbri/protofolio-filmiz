@@ -1,8 +1,8 @@
-import { useRouter } from 'next/dist/client/router';
-import { FC, Key } from 'react';
-import { assign } from 'xstate';
-import { Context, usePrepare } from '../../lib/context';
-import requests from '../../lib/requests';
+import { useRouter } from "next/dist/client/router";
+import { FC, Key } from "react";
+import { assign } from "xstate";
+import { Context, usePrepare } from "../../lib/context";
+import requests from "../../lib/requests";
 
 type Props = { key?: Key | null | undefined };
 
@@ -10,11 +10,11 @@ const ProviderMachine: FC<Props> = ({ key, children }) => {
   const router = useRouter();
 
   const queryGenre = (
-    !router.query.genre ? 'fetchTrending' : router.query.genre
+    !router.query.genre ? "fetchTrending" : router.query.genre
   ) as keyof typeof requests;
 
   const queryLanguage = (
-    !router.query.lang ? 'fr' : router.query.lang
+    !router.query.lang ? "fr" : router.query.lang
   ) as string;
 
   // #region Machine Interpreter
@@ -27,17 +27,17 @@ const ProviderMachine: FC<Props> = ({ key, children }) => {
     services: {
       changeLanguage: async (ctx, ev) => {
         const genre = ctx.genre;
-        if (ev.type === 'changeLanguage') {
+        if (ev.type === "changeLanguage") {
           const lang = ev.value;
           const query =
-            genre === 'fetchTrending'
+            genre === "fetchTrending"
               ? {
                   lang,
                 }
               : { genre, lang };
           return await router
             .push({
-              pathname: '/',
+              pathname: "/",
               query,
             })
             .then(() => lang)
@@ -46,17 +46,17 @@ const ProviderMachine: FC<Props> = ({ key, children }) => {
       },
       fetch: async (ctx, ev) => {
         const lang = ctx.language;
-        if (ev.type === 'fetch') {
+        if (ev.type === "fetch") {
           const genre = ev.value;
 
           if (ctx.genre === genre) return;
 
-          if (!ctx.genre && genre === 'fetchTrending') {
+          if (!ctx.genre && genre === "fetchTrending") {
             return;
           }
 
           const query =
-            genre === 'fetchTrending'
+            genre === "fetchTrending"
               ? {
                   lang,
                 }
@@ -67,7 +67,7 @@ const ProviderMachine: FC<Props> = ({ key, children }) => {
 
           return await router
             .push({
-              pathname: '/',
+              pathname: "/",
               query,
             })
             .then(() => genre)
@@ -75,14 +75,11 @@ const ProviderMachine: FC<Props> = ({ key, children }) => {
         }
       },
     },
-  
   });
 
   // #endregion
 
-  return (
-    <Context.Provider {...{ value, key }}>{children}</Context.Provider>
-  );
+  return <Context.Provider {...{ value, key }}>{children}</Context.Provider>;
 };
 
 export default ProviderMachine;

@@ -8,7 +8,7 @@ import { TContext, TEvent } from "./types";
 function usePrepare(
   options?: Partial<InterpreterOptions> &
     Partial<UseMachineOptions<TContext, TEvent>> &
-    Partial<MachineOptions<TContext, TEvent>>,
+    Partial<MachineOptions<TContext, TEvent>>
 ) {
   return usePrepareMachineContext(machine, options as any);
 }

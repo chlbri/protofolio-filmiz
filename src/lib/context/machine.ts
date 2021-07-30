@@ -4,118 +4,118 @@ import { TContext, TEvent } from "./types";
 export const machine = createMachine<TContext, TEvent>(
   {
     context: {
-      genre: 'fetchTrending',
+      genre: "fetchTrending",
       selected: undefined,
       movies: [],
-      language: 'fr',
+      language: "fr",
     },
-    type: 'parallel',
+    type: "parallel",
     states: {
       language: {
-        initial: 'idle',
+        initial: "idle",
         states: {
           idle: {
             on: {
-              changeLanguage: 'changing',
+              changeLanguage: "changing",
             },
           },
           changing: {
             invoke: {
-              src: 'changeLanguage',
+              src: "changeLanguage",
               onDone: {
-                target: 'success',
+                target: "success",
                 actions: assign({ language: (_, event) => event.data }),
               },
-              onError: 'failure',
+              onError: "failure",
             },
           },
 
           success: {
             on: {
               resetLanguage: {
-                target: 'idle',
-                actions: 'resetLanguage',
+                target: "idle",
+                actions: "resetLanguage",
               },
               hardReset: {
-                target: 'idle',
-                actions: 'resetLanguage',
+                target: "idle",
+                actions: "resetLanguage",
               },
-              changeLanguage: 'changing',
+              changeLanguage: "changing",
             },
           },
           failure: {
             on: {
               resetLanguage: {
-                target: 'idle',
-                actions: 'resetLanguage',
+                target: "idle",
+                actions: "resetLanguage",
               },
               hardReset: {
-                target: 'idle',
-                actions: 'resetLanguage',
+                target: "idle",
+                actions: "resetLanguage",
               },
-              changeLanguage: 'changing',
+              changeLanguage: "changing",
             },
           },
         },
       },
       fetch: {
-        initial: 'idle',
+        initial: "idle",
         states: {
           idle: {
-            entry: 'getInitialGenre',
+            entry: "getInitialGenre",
             on: {
-              fetch: 'fetching',
+              fetch: "fetching",
             },
           },
           fetching: {
             invoke: {
-              src: 'fetch',
+              src: "fetch",
               onDone: {
-                target: 'success',
+                target: "success",
                 actions: assign({ genre: (_, event) => event.data }),
               },
               onError: {
-                target: 'failure',
+                target: "failure",
               },
             },
           },
           success: {
             on: {
-              fetch: 'fetching',
-              hardReset: { target: 'idle', actions: 'resetFetch' },
+              fetch: "fetching",
+              hardReset: { target: "idle", actions: "resetFetch" },
             },
           },
           failure: {
             on: {
-              fetch: 'fetching',
-              hardReset: { target: 'idle', actions: 'resetFetch' },
+              fetch: "fetching",
+              hardReset: { target: "idle", actions: "resetFetch" },
             },
           },
         },
       },
       select: {
-        initial: 'idle',
+        initial: "idle",
         states: {
           idle: {
             on: {
-              select: 'selecting',
+              select: "selecting",
             },
           },
           selecting: {
-            entry: 'select',
-            always: 'selected',
+            entry: "select",
+            always: "selected",
           },
           selected: {
             on: {
               resetSelection: {
-                target: 'idle',
-                actions: 'resetSelection',
+                target: "idle",
+                actions: "resetSelection",
               },
               hardReset: {
-                target: 'idle',
-                actions: 'resetSelection',
+                target: "idle",
+                actions: "resetSelection",
               },
-              select: 'selecting',
+              select: "selecting",
             },
           },
         },
@@ -126,30 +126,30 @@ export const machine = createMachine<TContext, TEvent>(
     actions: {
       changeLanguage: assign({
         language: (_, ev) => {
-          if (ev.type === 'changeLanguage') {
+          if (ev.type === "changeLanguage") {
             return ev.value;
           }
-          return 'fr-shanged';
+          return "fr-shanged";
         },
       }),
       select: assign({
         selected: (_, ev) => {
-          if (ev.type === 'select') {
+          if (ev.type === "select") {
             return ev.value;
           }
           return undefined;
         },
       }),
       resetSelection: assign({ selected: (_) => undefined }),
-      resetLanguage: assign({ language: (_) => 'fr' }),
+      resetLanguage: assign({ language: (_) => "fr" }),
       resetFetch: assign({
-        genre: (_) => 'fetchTrending',
+        genre: (_) => "fetchTrending",
       }),
       assignFetch: assign({
         genre: (ctx, ev) => {
-          return ev.type === 'fetch' ? ev.value : ctx.genre;
+          return ev.type === "fetch" ? ev.value : ctx.genre;
         },
       }),
     },
-  },
+  }
 );
