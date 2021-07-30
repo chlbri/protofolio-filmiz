@@ -1,6 +1,10 @@
 import { createContext } from "react";
 import {
-  EventObject, Interpreter, State, StateMachine, Typestate
+  EventObject,
+  Interpreter,
+  State,
+  StateMachine,
+  Typestate,
 } from "xstate";
 
 export function createMachineContext<

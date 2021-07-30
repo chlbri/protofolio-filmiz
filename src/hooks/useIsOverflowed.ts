@@ -5,8 +5,10 @@ import {
   useRef,
   createRef,
   useState,
-} from 'react';
-import useResize from './useResize';
+} from "react";
+import useEventListener from "./useEventListener";
+import useMouseMove from "./useMouseMove";
+import useResize from "./useResize";
 
 const useIsOverflowed = () => {
   const [disabled, setDisabled] = useState(true);
@@ -14,7 +16,7 @@ const useIsOverflowed = () => {
 
   const update = useCallback(() => {
     const out =
-      !!ref.current && ref.current.scrollWidth <= ref.current.clientWidth;
+      !!ref.current && ref.current.scrollWidth <= ref.current.clientWidth + 2;
     setDisabled(out);
   }, [setDisabled]);
 
@@ -23,9 +25,11 @@ const useIsOverflowed = () => {
       return;
     }
     update();
-  }, [update]);
+  }, [update, ref]);
 
   useResize(update, !!ref.current);
+  useEventListener("mouseover", update);
+
   return [ref, disabled, setDisabled] as const;
 };
 

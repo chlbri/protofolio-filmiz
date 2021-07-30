@@ -1,14 +1,5 @@
-import { useLayoutEffect, useRef } from 'react';
+import useEventListener from "./useEventListener";
 
-const useResize = (handler: () => void, state = true) => {
-  useLayoutEffect(() => {
-    if (!state) {
-      return;
-    }
-
-    window.addEventListener('resize', handler);
-    return () => window.removeEventListener('resize', handler);
-  }, [handler, state]);
-};
-
+const useResize = (handler: () => void, state = true) =>
+  useEventListener("resize", handler, state);
 export default useResize;
