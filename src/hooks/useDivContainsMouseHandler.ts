@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 
-const useContainsMouseHandler = (handler: () => void) => {
+const useDivContainsMouseHandler = (handler: () => void) => {
   const ref = useRef<any>();
 
   const handleHideDropdown = useCallback(
@@ -29,4 +29,4 @@ const useContainsMouseHandler = (handler: () => void) => {
   return ref;
 };
 
-export default useContainsMouseHandler;
+export default useDivContainsMouseHandler;

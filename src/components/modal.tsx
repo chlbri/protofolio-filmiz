@@ -2,7 +2,7 @@
 
 import { ThumbUpIcon } from "@heroicons/react/outline";
 import { FC, useCallback } from "react";
-import useContainsMouseHandler from "../hooks/useDivContainsMouseHandler";
+import useDivContainsMouseHandler from "../hooks/useDivContainsMouseHandler";
 // import Context from "../lib/contexte";
 import { useContext } from "../lib/context";
 
@@ -14,7 +14,7 @@ const Modal: FC = () => {
     return send({ type: "select", value: undefined });
   }, [send]);
 
-  const ref = useContainsMouseHandler(onClick);
+  const ref = useDivContainsMouseHandler(onClick);
 
   const type = "button";
 
