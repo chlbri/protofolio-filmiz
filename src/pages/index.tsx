@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const movies = await fetch(url)
     .then((data) => data.json())
     .then<Movie[]>((data) => data.results)
-    .catch(() => null);
+    .catch(() => undefined);
 
   return {
     props: {
