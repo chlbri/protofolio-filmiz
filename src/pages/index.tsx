@@ -41,9 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const lang = ctx.query?.lang;
   const url = `${process.env.TMDB_API_URL}/${
     requests[(genre as keyof typeof requests) ?? "fetchTrending"]!.url
-  }&language=${
-    lang ?? "fr"
-  }`; /* .replace(api_key, () => process.env.TMDB_API_KEY!) */
+  }&language=${lang ?? "fr"}`;
 
   const movies = await fetch(url)
     .then((data) => data.json())

@@ -18,13 +18,8 @@ export function usePrepareMachineContext<
     value: any;
     context: TContext;
   }
->(
-  machine: MaybeLazy<StateMachine<TContext, any, TEvent, TTypestate>>,
-  options?: Partial<InterpreterOptions> &
-    Partial<UseMachineOptions<TContext, TEvent>> &
-    Partial<MachineOptions<TContext, TEvent>>
-) {
-  const [state, send, serviceMachine] = useMachine(machine, options);
+>(machine: MaybeLazy<StateMachine<TContext, any, TEvent, TTypestate>>) {
+  const [state, send, serviceMachine] = useMachine(machine, {});
   const service = omit(serviceMachine, "send", "sender", "state");
   return [state, send, service] as ContextType<TContext, TEvent, TTypestate>;
 }
