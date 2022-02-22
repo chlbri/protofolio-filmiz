@@ -1,12 +1,12 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { useRouter } from 'next/router';
-import { FC } from 'react';
-import Header from '../components/Header';
-import Modal from '../components/modal';
-import Nav from '../components/Nav';
-import Movies from '../components/Results';
-import Movie from '../lib/Movie';
-import requests from '../lib/requests';
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
+import { FC } from "react";
+import Header from "../components/Header";
+import Modal from "../components/modal";
+import Nav from "../components/Nav";
+import Movies from "../components/Results";
+import Movie from "../lib/Movie";
+import requests from "../lib/requests";
 
 const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   movies,
@@ -16,18 +16,13 @@ const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   return (
     <>
       <div>
-        {/* Header */}
         <Header />
 
-        {/* Nav */}
         <Nav />
 
-        {/* Results */}
+        <Movies movies={movies} />
 
-        {movies && <Movies movies={movies} />}
-
-        {/* Nav */}
-        <Nav className='mb-10' />
+        <Nav className="mb-10" />
       </div>
       <Modal />
     </>
@@ -45,9 +40,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const genre = ctx.query?.genre;
   const lang = ctx.query?.lang;
   const url = `${process.env.TMDB_API_URL}/${
-    requests[(genre as keyof typeof requests) ?? 'fetchTrending']!.url
+    requests[(genre as keyof typeof requests) ?? "fetchTrending"]!.url
   }&language=${
-    lang ?? 'fr'
+    lang ?? "fr"
   }`; /* .replace(api_key, () => process.env.TMDB_API_KEY!) */
 
   const movies = await fetch(url)
