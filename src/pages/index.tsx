@@ -1,40 +1,28 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { useRouter } from "next/router";
+import Head from "next/head";
 import { FC } from "react";
 import Header from "../components/Header";
 import Modal from "../components/modal";
 import Nav from "../components/Nav";
 import Movies from "../components/Results";
-import Movie from "../lib/Movie";
-import requests from "../lib/requests";
+import Movie from "../lib/ebr/Movie";
+import requests from "../lib/ebr/Requests";
 
 const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   movies,
 }) => {
-  const router = useRouter();
-
-  const queryGenre = (
-    !router.query.genre ? "fetchTrending" : router.query.genre
-  ) as keyof typeof requests;
-
-  const queryLanguage = (
-    !router.query.lang ? "fr" : router.query.lang
-  ) as string;
-
   return (
     <>
+      <Head>
+        <title>Filmiz 2.0</title>
+      </Head>
       <div>
-        {/* Header */}
         <Header />
 
-        {/* Nav */}
         <Nav />
 
-        {/* Results */}
+        <Movies movies={movies} />
 
-        {movies && <Movies movies={movies} />}
-
-        {/* Nav */}
         <Nav className="mb-10" />
       </div>
       <Modal />
@@ -44,24 +32,22 @@ const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // ctx.params
-  if (!process.env.TMDB_API_URL)
-    throw new Error("L'url de l'api doit être défine");
-
   if (!process.env.TMDB_API_KEY)
     throw new Error("La clé de l'api doit être défine");
 
+  const TMDB_API_URL = process.env.TMDB_API_URL;
+  if (!TMDB_API_URL) throw new Error("L'url de l'api doit être défine");
+
   const genre = ctx.query?.genre;
   const lang = ctx.query?.lang;
-  const url = `${process.env.TMDB_API_URL}/${
+  const url = `${TMDB_API_URL}/${
     requests[(genre as keyof typeof requests) ?? "fetchTrending"]!.url
-  }&language=${
-    lang ?? "fr"
-  }`; /* .replace(api_key, () => process.env.TMDB_API_KEY!) */
+  }&language=${lang ?? "fr"}`;
 
   const movies = await fetch(url)
     .then((data) => data.json())
     .then<Movie[]>((data) => data.results)
-    .catch(() => null);
+    .catch(() => undefined);
 
   return {
     props: {

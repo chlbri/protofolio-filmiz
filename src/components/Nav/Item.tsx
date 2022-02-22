@@ -1,7 +1,6 @@
-import { useRouter } from "next/dist/client/router";
-import { FC } from "react";
-import { useContext } from "../../lib/context";
-import requests from "../../lib/requests";
+import type { FC } from "react";
+import useGenre from "../../hooks/useGenre";
+import requests from "../../lib/ebr/Requests";
 
 export type ItemProps = {
   title: string;
@@ -9,26 +8,8 @@ export type ItemProps = {
 };
 
 const Item: FC<ItemProps> = ({ genre, title }) => {
-  const [_, send] = useContext();
-  const router = useRouter();
-  const param = router.query.genre;
-
-  const pink = genre === param || (!param && genre === "fetchTrending");
-
-  const className = `${
-    pink ? "text-pink-600" : "hover:text-white"
-  } last:pr-24 cursor-pointer  transition duration-100 transform hover:scale-125  active:text-red-400`;
-
-  return (
-    <h2
-      onClick={() => {
-        send({ type: "fetch", value: genre });
-      }}
-      className={className}
-    >
-      {title}
-    </h2>
-  );
+  const { onClick, className } = useGenre(genre);
+  return <h2 {...{ onClick, className }}>{title}</h2>;
 };
 
 export default Item;

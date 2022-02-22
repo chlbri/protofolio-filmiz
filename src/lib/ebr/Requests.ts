@@ -1,6 +1,6 @@
 const env = process.env.TMDB_API_KEY;
 
-const out = {
+const requests = {
   fetchTrending: {
     title: "Tendance",
     url: `trending/movie/week?api_key=${env}&sort_by=popularity.desc`,
@@ -47,4 +47,11 @@ const out = {
   },
 } as const;
 
-export default out;
+export default requests;
+
+export type Requests = keyof typeof requests;
+
+export function isRequest(value: any): value is Requests {
+  const keys = Object.keys(requests);
+  return !!value && typeof value === "string" && keys.includes(value);
+}

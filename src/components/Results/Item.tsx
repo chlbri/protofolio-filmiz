@@ -3,9 +3,8 @@ import Tippy from "@tippyjs/react";
 import Image from "next/image";
 import { ComponentProps, forwardRef, memo } from "react";
 import "tippy.js/themes/material.css";
-import useIsOverflowed from "../../hooks/useIsOverflowed";
-import { useContext } from "../../lib/context";
-import Movie from "../../lib/Movie";
+import useResult from "../../hooks/useResult";
+import type Movie from "../../lib/ebr/Movie";
 
 type Props = { result: Movie };
 
@@ -15,24 +14,12 @@ const ItemResult = forwardRef<HTMLDivElement, ComponentProps<"div"> & Props>(
       title,
       original_title,
       overview,
-      backdrop_path,
-      poster_path,
       // media_type,
       release_date,
       vote_count,
     } = result;
 
-    const [_, send] = useContext();
-    if (!process.env.TMDB_IMAGES_URL)
-      throw new Error("L'url de requête pour les images doit être définie");
-
-    const src = `${process.env.TMDB_IMAGES_URL}${backdrop_path || poster_path}`;
-
-    const [yRef, disabled, setDisabled] = useIsOverflowed();
-
-    const onClick = () => {
-      send({ type: "select", value: result });
-    };
+    const { src, yRef, disabled, onClick } = useResult(result);
 
     return (
       <>
@@ -44,10 +31,10 @@ const ItemResult = forwardRef<HTMLDivElement, ComponentProps<"div"> & Props>(
             <Tippy
               disabled={disabled}
               content={title || original_title}
-              theme="tooltip"
+              // theme="tooltip"
               delay={[700, 100]}
               duration={[1000, 0]}
-              className="md:-mb-3"
+              className="md:-mb-3 px-2 py-1 rounded-md bg-green-900 text-white bg-opacity-60 text-center"
             >
               <div>
                 <div
