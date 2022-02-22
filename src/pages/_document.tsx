@@ -22,7 +22,13 @@ class MyDocument extends Document {
             content="A place to find a great film to watch"
           />
         </Head>
-        <body>
+        <body
+          className="bg-[#06202A] text-gray-300"
+          style={{
+            fontFamily:
+              "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+          }}
+        >
           <Main />
           <NextScript />
         </body>

@@ -1,13 +1,8 @@
 import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  createRef,
-  useState,
+  useCallback, useLayoutEffect,
+  useRef, useState
 } from "react";
 import useEventListener from "./useEventListener";
-import useMouseMove from "./useMouseMove";
 import useResize from "./useResize";
 
 const useIsOverflowed = () => {

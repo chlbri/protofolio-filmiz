@@ -1,21 +1,9 @@
-/** @format */
-
 import { ThumbUpIcon } from "@heroicons/react/outline";
-import { FC, useCallback } from "react";
-import useDivContainsMouseHandler from "../hooks/useDivContainsMouseHandler";
-import useAppMachine from "../lib/context/store";
+import type { FC } from "react";
+import useModal from "../hooks/useModal";
 
 const Modal: FC = () => {
-  const send = useAppMachine((store) => store.send);
-  const movie = useAppMachine((store) => store.state.context.selected);
-
-  const onClick = useCallback(() => {
-    return send({ type: "select", value: undefined });
-  }, [send]);
-
-  const ref = useDivContainsMouseHandler(onClick);
-
-  const type = "button";
+  const { movie, refC, onClick } = useModal();
 
   return !movie ? null : (
     <div>
@@ -23,7 +11,7 @@ const Modal: FC = () => {
         <div className="bg-[#06202A] relative w-auto my-6 mx-2 md:mx-auto max-w-3xl text-white rounded-2xl max-h-screen overflow-hidden">
           {/*content*/}
           <div
-            ref={ref}
+            ref={refC}
             className="border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none "
           >
             {/*header*/}
@@ -48,7 +36,7 @@ const Modal: FC = () => {
               </p>
               <button
                 className=" text-red-500 background-transparent font-bold uppercase  outline-none focus:outline-none ease-linear transition-all duration-150"
-                {...{ type, onClick }}
+                {...{ type: "button", onClick }}
               >
                 Fermer
               </button>

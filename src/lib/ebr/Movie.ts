@@ -1,4 +1,4 @@
-export default interface Movie {
+type Movie = {
   id: number;
   adult: boolean;
   backdrop_path: string;
@@ -14,4 +14,6 @@ export default interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
-}
+};
+
+export default Movie;

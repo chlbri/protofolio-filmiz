@@ -1,32 +1,16 @@
-import { ServerIcon } from "@heroicons/react/outline";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
-import { StateValueMap } from "xstate";
+import { FC } from "react";
 import Header from "../components/Header";
 import Modal from "../components/modal";
 import Nav from "../components/Nav";
 import Movies from "../components/Results";
-import useAppMachine from "../lib/context/store";
-import { isRequest } from "../lib/context/types";
-import Movie from "../lib/Movie";
-import requests from "../lib/requests";
+import Movie from "../lib/ebr/Movie";
+import requests from "../lib/ebr/Requests";
 
 const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   movies,
 }) => {
-  // useEffect(() => {
-  //   const lang = router.query.lang;
-  //   const genre = router.query.genre;
-  //   if (!!lang && typeof lang === "string") {
-  //     send({ type: "changeLanguage", value: lang ?? 'fr' });
-  //   }
-  //   if (isRequest(genre)) {
-  //     send({ type: "fetch", value: genre ?? 'fetchTrending' });
-  //   }
-  // }, []);
-
   return (
     <>
       <Head>
@@ -48,15 +32,15 @@ const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // ctx.params
-  if (!process.env.TMDB_API_URL)
-    throw new Error("L'url de l'api doit être défine");
-
   if (!process.env.TMDB_API_KEY)
     throw new Error("La clé de l'api doit être défine");
 
+  const TMDB_API_URL = process.env.TMDB_API_URL;
+  if (!TMDB_API_URL) throw new Error("L'url de l'api doit être défine");
+
   const genre = ctx.query?.genre;
   const lang = ctx.query?.lang;
-  const url = `${process.env.TMDB_API_URL}/${
+  const url = `${TMDB_API_URL}/${
     requests[(genre as keyof typeof requests) ?? "fetchTrending"]!.url
   }&language=${lang ?? "fr"}`;
 
