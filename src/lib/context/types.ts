@@ -2,17 +2,22 @@ import { EventObject, Interpreter, State, Typestate } from "xstate";
 import Movie from "../Movie";
 import requests from "../requests";
 
+export type Requests = keyof typeof requests;
+
 export type TContext = {
   selected: Movie | undefined;
-  genre: keyof typeof requests;
-  movies: Movie[];
-  language: string;
+ 
 };
+
+export function isRequest(value: any): value is Requests {
+  const keys = Object.keys(requests);
+  return !!value && typeof value === "string" && keys.includes(value);
+}
 
 export type TEvent =
   | {
       type: "fetch";
-      value: keyof typeof requests;
+      value: Requests;
     }
   | { type: "select"; value: Movie | undefined }
   | { type: "changeLanguage"; value: string }

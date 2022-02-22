@@ -22,7 +22,7 @@ const Item: FC<ItemProps> = ({ genre, title }) => {
   return (
     <h2
       onClick={() => {
-        send({ type: "fetch", value: genre });
+        router.push({ pathname: "/", query: { ...router.query, genre } });
       }}
       className={className}
     >
