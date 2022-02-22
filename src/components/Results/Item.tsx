@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ComponentProps, forwardRef, memo } from "react";
 import "tippy.js/themes/material.css";
 import useIsOverflowed from "../../hooks/useIsOverflowed";
-import { useContext } from "../../lib/context";
+import useAppMachine from "../../lib/context/store";
 import Movie from "../../lib/Movie";
 
 type Props = { result: Movie };
@@ -22,7 +22,7 @@ const ItemResult = forwardRef<HTMLDivElement, ComponentProps<"div"> & Props>(
       vote_count,
     } = result;
 
-    const [_, send] = useContext();
+    const send = useAppMachine((store) => store.send);
     if (!process.env.TMDB_IMAGES_URL)
       throw new Error("L'url de requête pour les images doit être définie");
 

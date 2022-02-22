@@ -1,6 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import { FC } from "react";
-import { useContext } from "../../lib/context";
+import useAppMachine from "../../lib/context/store";
 import requests from "../../lib/requests";
 
 export type ItemProps = {
@@ -9,7 +9,7 @@ export type ItemProps = {
 };
 
 const Item: FC<ItemProps> = ({ genre, title }) => {
-  const [_, send] = useContext();
+  const send = useAppMachine((store) => store.send);
   const router = useRouter();
   const param = router.query.genre;
 

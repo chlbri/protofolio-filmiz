@@ -10,7 +10,7 @@ function usePrepare(
     Partial<UseMachineOptions<TContext, TEvent>> &
     Partial<MachineOptions<TContext, TEvent>>
 ) {
-  return usePrepareMachineContext(machine, options as any);
+  return usePrepareMachineContext(machine);
 }
 
 const Context = createMachineContext(machine);

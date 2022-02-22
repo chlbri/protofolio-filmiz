@@ -1,4 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import Header from "../components/Header";
@@ -15,6 +16,9 @@ const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
 
   return (
     <>
+     <Head>
+        <title>Filmiz 2.0</title>
+      </Head>
       <div>
         <Header />
 

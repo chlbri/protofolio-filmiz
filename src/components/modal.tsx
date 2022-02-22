@@ -3,12 +3,11 @@
 import { ThumbUpIcon } from "@heroicons/react/outline";
 import { FC, useCallback } from "react";
 import useDivContainsMouseHandler from "../hooks/useDivContainsMouseHandler";
-// import Context from "../lib/contexte";
-import { useContext } from "../lib/context";
+import useAppMachine from "../lib/context/store";
 
 const Modal: FC = () => {
-  const [state, send] = useContext();
-  const movie = state.context.selected;
+  const send = useAppMachine((store) => store.send);
+  const movie = useAppMachine((store) => store.state.context.selected);
 
   const onClick = useCallback(() => {
     return send({ type: "select", value: undefined });

@@ -8,13 +8,8 @@ import {
 } from "xstate";
 
 export function createMachineContext<
-  TContext,
-  TEvent extends EventObject,
-  TTypestate extends Typestate<TContext> = {
-    value: any;
-    context: TContext;
-  }
->(machine?: StateMachine<TContext, any, TEvent, TTypestate>) {
+T extends StateMachine<any, any, any, any, any, any, any>
+>(machine?: T) {
   return createContext<
     | [
         State<TContext, TEvent, any, TTypestate>,

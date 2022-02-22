@@ -12,16 +12,11 @@ import {
 import { ContextType } from "./types";
 
 export function usePrepareMachineContext<
-  TContext,
-  TEvent extends EventObject,
-  TTypestate extends Typestate<TContext> = {
-    value: any;
-    context: TContext;
-  }
->(machine: MaybeLazy<StateMachine<TContext, any, TEvent, TTypestate>>) {
+  T extends StateMachine<any, any, any, any, any, any, any>
+>(machine: T) {
   const [state, send, serviceMachine] = useMachine(machine, {});
   const service = omit(serviceMachine, "send", "sender", "state");
-  return [state, send, service] as ContextType<TContext, TEvent, TTypestate>;
+  return [state, send, service] as const;
 }
 
 export function useMachineContext<

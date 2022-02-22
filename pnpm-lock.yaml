@@ -22,6 +22,8 @@ specifiers:
   ts-jest: ^27.1.3
   typescript: 4.5.5
   xstate: ^4.30.1
+  zustand: ^3.7.0
+  zustand-middleware-xstate: ^1.1.1
 
 dependencies:
   '@headlessui/react': 1.5.0_react-dom@17.0.2+react@17.0.2
@@ -34,6 +36,8 @@ dependencies:
   react-dom: 17.0.2_react@17.0.2
   react-flip-move: 3.0.4_react-dom@17.0.2+react@17.0.2
   xstate: 4.30.1
+  zustand: 3.7.0_react@17.0.2
+  zustand-middleware-xstate: 1.1.1_xstate@4.30.1+zustand@3.7.0
 
 devDependencies:
   '@types/jest': 27.4.0
@@ -4418,3 +4422,25 @@ packages:
       y18n: 5.0.8
       yargs-parser: 20.2.9
     dev: true
+
+  /zustand-middleware-xstate/1.1.1_xstate@4.30.1+zustand@3.7.0:
+    resolution: {integrity: sha512-WNKGWzWwytk5dfnIR595r0BkA9ojhxgw29MG0IQzSW/DNf4x2rrdW5paqB4Hpf6NVWO00OiEuvmqmNknHmnfdA==}
+    peerDependencies:
+      xstate: ^4.30.0
+      zustand: ^3.5.7
+    dependencies:
+      xstate: 4.30.1
+      zustand: 3.7.0_react@17.0.2
+    dev: false
+
+  /zustand/3.7.0_react@17.0.2:
+    resolution: {integrity: sha512-USzVzLGrvZ8VK1/sEsOAmeqa8N7D3OBdZskVaL7DL89Q4QLTYD053iIlZ5KDidyZ+Od80Dttin/f8ZulOLFFDQ==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      react: 17.0.2
+    dev: false
