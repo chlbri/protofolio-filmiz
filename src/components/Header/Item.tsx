@@ -1,9 +1,9 @@
-import type { ComponentProps, FC, ReactElement } from "react";
+import type { ComponentProps, FC, ReactElement } from 'react';
 
 export type HeaderItemProps = {
   title: string;
   children: ReactElement;
-  key?: ComponentProps<"div">["key"];
+  key?: ComponentProps<'div'>['key'];
 };
 
 const HeaderItem: FC<HeaderItemProps> = ({ title, children, key }) => {

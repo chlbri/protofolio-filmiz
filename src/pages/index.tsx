@@ -12,21 +12,19 @@ const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   movies,
 }) => {
   return (
-    <>
+    <div className="bg-[#06202A] text-gray-300">
       <Head>
-        <title>Filmiz 2.0</title>
+        <title>@bemedev/filmiz 2.0</title>
       </Head>
-      <div>
-        <Header />
+      <Header />
 
-        <Nav />
+      <Nav />
 
-        <Movies movies={movies} />
+      <Movies movies={movies} />
 
-        <Nav className="mb-10" />
-      </div>
+      <Nav className="pb-5" />
       <Modal />
-    </>
+    </div>
   );
 };
 

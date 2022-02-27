@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "prettier --write \"**/**.{ts,tsx}\"",
+    "lint": "prettier --write \"**/**.{ts,tsx}\" && next lint --fix",
     "pnpm": "pnpm install",
     "upgrade": "pnpm upgrade --latest",
     "clean_cache": "pnpm cache clean"

@@ -1,8 +1,8 @@
-import { Menu, Transition } from "@headlessui/react";
-import { SpeakerphoneIcon } from "@heroicons/react/outline";
-import { FC, Fragment } from "react";
-import langs from "./data.json";
-import DropdownMenuItem from "./Item";
+import { Menu, Transition } from '@headlessui/react';
+import { SpeakerphoneIcon } from '@heroicons/react/outline';
+import { FC, Fragment } from 'react';
+import langs from './data.json';
+import DropdownMenuItem from './Item';
 
 const DropdownMenu: FC = () => (
   <Menu as="div" className="relative text-left w-26">

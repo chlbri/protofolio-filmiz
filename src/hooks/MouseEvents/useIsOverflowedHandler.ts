@@ -1,5 +1,5 @@
-import { useCallback, useLayoutEffect, useRef } from "react";
-import useResize from "./useResize";
+import { useCallback, useLayoutEffect, useRef } from 'react';
+import useResize from './useResize';
 
 const useIsOverflowedHandler = (handler: () => void) => {
   const ref = useRef<any>();
