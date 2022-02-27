@@ -1,9 +1,17 @@
 import type Movie from "../ebr/Movie";
+import type { Requests } from "../ebr/Requests";
 
 export type TContext = {
   selected: Movie | undefined;
+  genre: Requests;
+  movies: Movie[];
+  language: string;
 };
 
 export type TEvent =
-  | { type: "select"; value: Movie | undefined }
-  | { type: "resetSelection" };
+  | {
+      type: "CHANGE_GENRE";
+      value?: Requests;
+    }
+  | { type: "SELECT"; value?: Movie }
+  | { type: "CHANGE_LANGUAGE"; value?: string };

@@ -12,6 +12,7 @@
     "clean_cache": "pnpm cache clean"
   },
   "dependencies": {
+    "@bemedev/middleware-zustand-xstate-fsm": "^0.1.2",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.5",
     "@tippyjs/react": "^4.2.6",

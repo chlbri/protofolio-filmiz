@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@bemedev/middleware-zustand-xstate-fsm': ^0.1.2
   '@headlessui/react': ^1.5.0
   '@heroicons/react': ^1.0.5
   '@tippyjs/react': ^4.2.6
@@ -28,6 +29,7 @@ specifiers:
   zustand-middleware-xstate: ^1.1.1
 
 dependencies:
+  '@bemedev/middleware-zustand-xstate-fsm': 0.1.2_d6e389055f4583091d338d62fcf37874
   '@headlessui/react': 1.5.0_react-dom@17.0.2+react@17.0.2
   '@heroicons/react': 1.0.5_react@17.0.2
   '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
@@ -402,6 +404,18 @@ packages:
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
+
+  /@bemedev/middleware-zustand-xstate-fsm/0.1.2_d6e389055f4583091d338d62fcf37874:
+    resolution: {integrity: sha512-CF0vRuRoStaIZ/ITOn3aD2fzZtMoeWxyUVVXmEJtdmTBegRhxbq8JZ8AtL6/VDfqsiXb6aBG0UtB2uWNPZ7k1A==}
+    peerDependencies:
+      '@xstate/fsm': ^1.6.5
+      react: ^17.0.2
+      zustand: ^3.7.0
+    dependencies:
+      '@xstate/fsm': 1.6.4
+      react: 17.0.2
+      zustand: 3.7.0_react@17.0.2
+    dev: false
 
   /@eslint/eslintrc/1.1.0:
     resolution: {integrity: sha512-C1DfL7XX4nPqGd6jcP01W9pVM1HYCuUkFk1432D7F0v3JSlUIeOYn9oCoi3eoLZ+iwBSb29BMFxxny0YrrEZqg==}
