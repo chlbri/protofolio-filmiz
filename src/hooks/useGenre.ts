@@ -1,20 +1,19 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
+import useAppMachine from '../lib/abr/store';
+import type { Requests } from '../lib/ebr/Requests';
 
-export default function useGenre(genre: string) {
-  const router = useRouter();
-  const param = router.query.genre;
+export default function useGenre(value: Requests) {
+  const send = useAppMachine(store => store.send);
+  const param = useRouter().query.genre;
 
-  const pink = genre === param || (!param && genre === "fetchTrending");
+  const pink = value === param || (!param && value === 'fetchTrending');
 
   const className = `${
-    pink ? "text-pink-600" : "hover:text-white"
+    pink ? 'text-pink-600' : 'hover:text-white'
   } last:pr-24 cursor-pointer  transition duration-100 transform hover:scale-125 active:text-red-400`;
   return {
     onClick: () => {
-      router.push({
-        pathname: "/",
-        query: { ...router.query, genre },
-      });
+      send({ type: 'CHANGE_GENRE', value });
     },
     className,
   };

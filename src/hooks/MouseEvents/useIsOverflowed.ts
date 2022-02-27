@@ -1,9 +1,6 @@
-import {
-  useCallback, useLayoutEffect,
-  useRef, useState
-} from "react";
-import useEventListener from "./useEventListener";
-import useResize from "./useResize";
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import useEventListener from './useEventListener';
+import useResize from './useResize';
 
 const useIsOverflowed = () => {
   const [disabled, setDisabled] = useState(true);
@@ -11,7 +8,8 @@ const useIsOverflowed = () => {
 
   const update = useCallback(() => {
     const out =
-      !!ref.current && ref.current.scrollWidth <= ref.current.clientWidth + 2;
+      !!ref.current &&
+      ref.current.scrollWidth <= ref.current.clientWidth + 2;
     setDisabled(out);
   }, [setDisabled]);
 
@@ -23,7 +21,7 @@ const useIsOverflowed = () => {
   }, [update, ref]);
 
   useResize(update, !!ref.current);
-  useEventListener("mouseover", update);
+  useEventListener('mouseover', update);
 
   return [ref, disabled, setDisabled] as const;
 };

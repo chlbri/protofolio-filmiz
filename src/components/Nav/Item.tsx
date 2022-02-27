@@ -1,6 +1,6 @@
-import type { FC } from "react";
-import useGenre from "../../hooks/useGenre";
-import requests from "../../lib/ebr/Requests";
+import type { FC } from 'react';
+import useGenre from '../../hooks/useGenre';
+import requests from '../../lib/ebr/Requests';
 
 export type ItemProps = {
   title: string;

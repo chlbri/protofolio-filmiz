@@ -1,6 +1,6 @@
-import { machine } from "./machine";
-import create from "zustand";
-import zx from "zustand-middleware-xstate";
+import zx from '@bemedev/middleware-zustand-xstate-fsm';
+import create from 'zustand';
+import { machine } from './machine';
 
 const useAppMachine = create(zx(machine));
 
