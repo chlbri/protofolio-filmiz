@@ -1,6 +1,6 @@
-import useEventListener from "./useEventListener";
+import useEventListener from './useEventListener';
 
-const useMouseMove = (handler: () => void, state = true) =>
-  useEventListener("mousemove", handler, state);
+const useMouseMove = (handler: () => void) =>
+  useEventListener('mousemove', handler);
 
 export default useMouseMove;

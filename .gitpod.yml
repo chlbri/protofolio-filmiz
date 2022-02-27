@@ -1,21 +1,12 @@
 # package.json repo à changer
 
 tasks:
-
-  - name: install all dependencies
-    init: |
-      npm install -g ts-node
-      yarn add -D typescript
-      yarn add -D @typescript-eslint/eslint-plugin
-      yarn add -D @typescript-eslint/parser
-      yarn add -D eslint
-      yarn add -D jest-cucumber
-      yarn
-      
+  - name: Configuration
+    before: sh .gitpod-config/globalDependencies.sh
+    init: pnpm install
+    
 vscode:
   extensions:
-    - ms-azuretools.vscode-docker
-    - ms-ceintl.vscode-language-pack-fr
     - github.vscode-pull-request-github
     - eamodio.gitlens
     - graphql.vscode-graphql
@@ -27,6 +18,7 @@ vscode:
     - hbenl.vscode-test-explorer
     - fabiospampinato.vscode-todo-plus
     - dbaeumer.vscode-eslint
-    - tabnine.tabnine-vscode
     - codezombiech.gitignore
     - foxundermoon.shell-format
+    - redhat.vscode-xml
+    - hbenl.test-adapter-converter

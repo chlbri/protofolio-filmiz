@@ -4,7 +4,7 @@ import type { Requests } from "../ebr/Requests";
 export type TContext = {
   selected: Movie | undefined;
   genre: Requests;
-  movies: Movie[];
+  // movies: Movie[];
   language: string;
 };
 

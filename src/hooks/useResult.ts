@@ -1,9 +1,9 @@
-import _useAppMachine from "../lib/abr/store";
+import useAppMachine from "../lib/abr/store";
 import type Movie from "../lib/ebr/Movie";
 import useIsOverflowed from "./MouseEvents/useIsOverflowed";
 
 export default function useResult(value: Movie) {
-  const send = _useAppMachine((store) => store.send);
+  const send = useAppMachine((store) => store.send);
   const {
     backdrop_path,
     poster_path,

@@ -139,5 +139,6 @@ yarn.lock
 
 
 .gitpod.yml
-.eslintrc
-machines
+.prettierrc.yml
+.prettierrc
+.prettierrc.json

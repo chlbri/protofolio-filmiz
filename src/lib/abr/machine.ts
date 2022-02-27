@@ -1,37 +1,36 @@
-import { assign, createMachine } from "@xstate/fsm";
-import { Requests } from "../ebr/Requests";
-import type { TContext, TEvent } from "./types";
+import { assign, createMachine } from '@xstate/fsm';
+import type { TContext, TEvent } from './types';
 
 export const machine = createMachine<TContext, TEvent>(
   {
     context: {
-      genre: "fetchTrending",
+      genre: 'fetchTrending',
       selected: undefined,
-      movies: [],
-      language: "fr",
+      // movies: [],
+      language: 'fr',
     },
-    initial: "notselected",
+    initial: 'notselected',
     states: {
       notselected: {
         on: {
-          SELECT: { target: "selected", actions: "select" },
+          SELECT: { target: 'selected', actions: 'select' },
           CHANGE_LANGUAGE: {
-            actions: "changeLanguage",
+            actions: 'changeLanguage',
           },
           CHANGE_GENRE: {
-            actions: "changeGenre",
+            actions: 'changeGenre',
           },
         },
       },
       selected: {
         on: {
-          SELECT: { target: "notselected", actions: "select" },
+          SELECT: { target: 'notselected', actions: 'select' },
 
           CHANGE_LANGUAGE: {
-            actions: "changeLanguage",
+            actions: 'changeLanguage',
           },
           CHANGE_GENRE: {
-            actions: "changeGenre",
+            actions: 'changeGenre',
           },
         },
       },
@@ -41,8 +40,8 @@ export const machine = createMachine<TContext, TEvent>(
     actions: {
       changeLanguage: assign({
         language: (ctx, ev) => {
-          if (ev.type === "CHANGE_LANGUAGE") {
-            return ev.value ?? "fr";
+          if (ev.type === 'CHANGE_LANGUAGE') {
+            return ev.value ?? 'fr';
           }
           console.log(ctx);
 
@@ -51,15 +50,15 @@ export const machine = createMachine<TContext, TEvent>(
       }),
       changeGenre: assign({
         genre: (ctx, ev) => {
-          if (ev.type === "CHANGE_GENRE") {
-            return ev.value ?? "fetchTrending";
+          if (ev.type === 'CHANGE_GENRE') {
+            return ev.value ?? 'fetchTrending';
           }
           return ctx.genre;
         },
       }),
       select: assign({
         selected: (_, ev) => {
-          if (ev.type === "SELECT") {
+          if (ev.type === 'SELECT') {
             return ev.value;
           }
           console.log(_);
@@ -67,8 +66,6 @@ export const machine = createMachine<TContext, TEvent>(
           return undefined;
         },
       }),
-
-      // resetSelection: assign({ selected: (_) => undefined }),
     },
-  }
+  },
 );

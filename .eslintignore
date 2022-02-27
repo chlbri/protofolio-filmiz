@@ -1,0 +1,6 @@
+jest.config.js
+jest.setup.ts
+tailwind.config.js
+postcss.config.js
+next.config.js
+# tests/**

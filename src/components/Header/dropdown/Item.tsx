@@ -1,6 +1,5 @@
 import { Menu } from "@headlessui/react";
 import type { FC } from "react";
-import useLang from "../../../hooks/useLang";
 import useAppMachine from "../../../lib/abr/store";
 
 type Props = {
