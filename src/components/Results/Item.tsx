@@ -23,7 +23,7 @@ const ItemResult = forwardRef<HTMLDivElement, Props>(({ result }, ref) => {
   return (
     <>
       <div
-        className="cursor-pointer pt-5 mx-3 transition duration-200 ease-in transform sm:hover:scale-105  drop-shadow-md"
+        className="cursor-pointer pt-5 mx-3 transition duration-200 ease-in transform sm:hover:scale-105 drop-shadow-md"
         {...{ onClick, ref }}
       >
         <div className="group align-middle">
