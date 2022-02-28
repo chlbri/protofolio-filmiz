@@ -55,7 +55,6 @@
     "husky": "^7.0.0",
     "jest": "^27.5.1",
     "jest-cucumber": "^3.0.1",
-    "lint-staged": "^12.3.4",
     "postcss": "^8.4.6",
     "prettier": "^2.5.1",
     "pretty-quick": "^3.1.3",
