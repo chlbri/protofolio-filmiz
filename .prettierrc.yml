@@ -17,3 +17,5 @@ overrides:
   - files: "*.json"
     options:
       proseWrap: never
+plugins:
+  - prettier-plugin-tailwindcss
