@@ -23,7 +23,7 @@ const ItemResult = forwardRef<HTMLDivElement, Props>(({ result }, ref) => {
   return (
     <>
       <div
-        className="cursor-pointer pt-5 mx-3 transition duration-200 ease-in transform sm:hover:scale-105 drop-shadow-md"
+        className="mx-3 transform cursor-pointer pt-5 drop-shadow-md transition duration-200 ease-in sm:hover:scale-105"
         {...{ onClick, ref }}
       >
         <div className="group align-middle">
@@ -32,12 +32,12 @@ const ItemResult = forwardRef<HTMLDivElement, Props>(({ result }, ref) => {
             content={title || original_title}
             delay={[700, 100]}
             duration={[1000, 0]}
-            className="md:-mb-3 px-2 py-1 rounded-md bg-green-900 text-white bg-opacity-60 text-center"
+            className="rounded-md bg-green-900 bg-opacity-60 px-2 py-1 text-center text-white md:-mb-3"
           >
             <div>
               <div
                 ref={yRef}
-                className="truncate text-center text-2xl mb-5 py-1  sm:text-3xl  text-white transition-all duration-100 ease-in-out group-hover:font-bold"
+                className="mb-5 truncate py-1 text-center text-2xl  text-white  transition-all duration-100 ease-in-out group-hover:font-bold sm:text-3xl"
               >
                 {title || original_title}
               </div>
@@ -54,10 +54,10 @@ const ItemResult = forwardRef<HTMLDivElement, Props>(({ result }, ref) => {
             objectFit="cover"
           />
           <div>
-            <p className="truncate max-w-md px-5">{overview}</p>
-            <p className="flex px-5 items-center opacity-0 group-hover:opacity-75">
+            <p className="max-w-md truncate px-5">{overview}</p>
+            <p className="flex items-center px-5 opacity-0 group-hover:opacity-75">
               {!!release_date && `${release_date} •`}{' '}
-              <ThumbUpIcon className="h-5 mx-2" /> {vote_count}
+              <ThumbUpIcon className="mx-2 h-5" /> {vote_count}
             </p>
           </div>
         </div>

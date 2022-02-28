@@ -11,7 +11,7 @@ const DropdownMenuItem: FC<Props> = ({ value }) => {
     store => () => store.send({ type: 'CHANGE_LANGUAGE', value }),
   );
   return (
-    <div className="md:py-1 w-10 md:w-24">
+    <div className="w-10 md:w-24 md:py-1">
       <Menu.Item as="div">
         {({ active }) => {
           const className = `${
