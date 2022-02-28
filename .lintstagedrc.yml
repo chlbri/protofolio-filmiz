@@ -1,2 +1,2 @@
 '*.(js|jsx|ts|tsx)': 
-  - pnpm test
+  - pnpm lint
