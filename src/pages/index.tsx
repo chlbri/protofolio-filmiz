@@ -11,6 +11,7 @@ import requests from '../lib/ebr/Requests';
 const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   movies,
 }) => {
+  //TODO add Internationalization
   return (
     <div className="bg-[#06202A] text-gray-300">
       <Head>
@@ -30,6 +31,7 @@ const Home: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   // ctx.params
+  //TODO Add husky
   if (!process.env.TMDB_API_KEY)
     throw new Error("La clé de l'api doit être défine");
 

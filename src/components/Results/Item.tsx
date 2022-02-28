@@ -8,10 +8,7 @@ import type Movie from '../../lib/ebr/Movie';
 
 type Props = { result: Movie };
 
-const ItemResult = forwardRef<
-  HTMLDivElement,
-  Props
->(({ result }, ref) => {
+const ItemResult = forwardRef<HTMLDivElement, Props>(({ result }, ref) => {
   const {
     title,
     original_title,
