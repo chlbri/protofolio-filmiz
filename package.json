@@ -9,7 +9,8 @@
     "lint": "prettier --write \"**/**.{ts,tsx}\" && next lint --fix",
     "pnpm": "pnpm install",
     "upgrade": "pnpm upgrade --latest",
-    "clean_cache": "pnpm cache clean"
+    "clean_cache": "pnpm cache clean",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@bemedev/middleware-zustand-xstate-fsm": "^0.1.2",
@@ -50,8 +51,10 @@
     "eslint-plugin-jest": "26.1.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-testing-library": "5.0.5",
+    "husky": "^7.0.0",
     "jest": "^27.5.1",
     "jest-cucumber": "^3.0.1",
+    "lint-staged": "^12.3.4",
     "postcss": "^8.4.6",
     "prettier": "^2.5.1",
     "react-test-renderer": "^17.0.2",
