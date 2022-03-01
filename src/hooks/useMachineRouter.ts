@@ -3,22 +3,28 @@ import { useEffect } from 'react';
 import useAppMachine from '../lib/abr/store';
 
 export default function useMachineRouter() {
-  const { push } = useRouter();
+  const router = useRouter();
 
   const subscribe = useAppMachine(store => store.service.subscribe);
 
   return useEffect(() => {
     subscribe(state => {
+      // document.body.style.overflow = state.context.selected ? "hidden" : "unset";
+
       if (state.changed) {
-        push({
-          pathname: '/',
-          query: {
-            genre: state.context.genre,
-            lang: state.context.language,
+        router.push(
+          {
+            pathname: '/',
+            query: {
+              genre: state.context.genre,
+              lang: state.context.language,
+            },
           },
-        });
+          undefined,
+          { scroll: false },
+        );
+        console.log('count');
       }
-      console.log('count');
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscribe]);

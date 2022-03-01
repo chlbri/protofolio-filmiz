@@ -10,10 +10,10 @@ const HeaderItem: FC<HeaderItemProps> = ({ title, children, key }) => {
   return (
     <div
       {...{ key }}
-      className="flex flex-col items-center cursor-pointer group w-12 sm:w-20 hover:text-white"
+      className="group flex w-12 cursor-pointer flex-col items-center hover:text-white sm:w-20"
     >
       {children}
-      <p className="opacity-0 group-hover:opacity-100 tracking-widest">
+      <p className="tracking-widest opacity-0 group-hover:opacity-100">
         {title}
       </p>
     </div>

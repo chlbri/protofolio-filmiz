@@ -1,42 +1,55 @@
 import { ThumbUpIcon } from '@heroicons/react/outline';
-import type { FC } from 'react';
+import { FC, MutableRefObject } from 'react';
 import useModal from '../hooks/useModal';
+import Movie from '../lib/ebr/Movie';
 
-const Modal: FC = () => {
-  const { movie, refC, onClick } = useModal();
+type _Props = Pick<
+  Movie,
+  'title' | 'overview' | 'release_date' | 'vote_count'
+> & {
+  refC: MutableRefObject<any>;
+  onClick: () => void;
+};
 
-  return !movie ? null : (
-    <div className="">
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
-        <div className="bg-[#06202A] relative w-auto my-6 mx-2 md:mx-auto max-w-3xl text-white rounded-2xl max-h-screen overflow-hidden">
+const _Modal: FC<_Props> = ({
+  title,
+  overview,
+  release_date,
+  vote_count,
+  refC,
+  onClick,
+}) => {
+  return (
+    <>
+      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none ">
+        <div className="relative my-6 mx-2 max-h-screen w-auto max-w-3xl overflow-hidden rounded-2xl bg-[#06202A] text-white md:mx-auto">
           {/*content*/}
           <div
             ref={refC}
-            className="border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none "
+            className="relative flex w-full flex-col rounded-lg border-0 shadow-lg outline-none focus:outline-none "
           >
             {/*header*/}
-            <div className="flex items-center justify-center p-3 md:p-5 border-b border-solid border-blueGray-200">
-              <h3 className="text-2xl md:text-3xl font-semibold text-center">
-                {movie.title}
+            <div className="border-blueGray-200 flex items-center justify-center border-b border-solid p-3 md:p-5">
+              <h3 className="text-center text-2xl font-semibold md:text-3xl">
+                {title}
               </h3>
             </div>
             {/*body*/}
-            <div className="relative p-2 max-h-96 md:max-h-screen overflow-y-auto">
-              <p className="my-3 px-5 md:text-lg leading-relaxed">
-                {!movie.overview || movie.overview.trim() === ''
+            <div className="relative max-h-96 overflow-y-auto p-2 md:max-h-screen">
+              <p className="my-3 px-5 leading-relaxed md:text-lg">
+                {!overview || overview.trim() === ''
                   ? 'Pas de description'
-                  : movie.overview}
+                  : overview}
               </p>
             </div>
             {/*footer*/}
-            <div className="flex items-center justify-between  md:pl-10 pr-4 md:pr-10 border-t border-solid border-blueGray-200 pt-3 rounded-b text-sm md:text-lg pb-4">
-              <p className="flex px-5 items-center opacity-75">
-                {!!movie.release_date && `${movie.release_date} •`}{' '}
-                <ThumbUpIcon className="h-5 mx-1 md:mx-2" />{' '}
-                {movie.vote_count}
+            <div className="border-blueGray-200 flex items-center  justify-between rounded-b border-t border-solid pr-4 pt-3 pb-4 text-sm md:pl-10 md:pr-10 md:text-lg">
+              <p className="flex items-center px-5 opacity-75">
+                {!!release_date && `${release_date} •`}{' '}
+                <ThumbUpIcon className="mx-1 h-5 md:mx-2" /> {vote_count}
               </p>
               <button
-                className=" text-red-500 background-transparent font-bold uppercase  outline-none focus:outline-none ease-linear transition-all duration-150"
+                className=" background-transparent font-bold uppercase text-red-500  outline-none transition-all duration-150 ease-linear focus:outline-none"
                 {...{ type: 'button', onClick }}
               >
                 Fermer
@@ -45,9 +58,15 @@ const Modal: FC = () => {
           </div>
         </div>
       </div>
-      <div className="opacity-70 fixed inset-0 z-20 bg-black"></div>
-    </div>
+      <div className="fixed inset-0 z-20 bg-black opacity-70"></div>
+    </>
   );
+};
+
+const Modal: FC = () => {
+  const { movie, refC, onClick } = useModal();
+
+  return !movie ? null : <_Modal {...{ ...movie, refC, onClick }} />;
 };
 
 export default Modal;

@@ -1,4 +1,3 @@
-
 arrowParens: avoid
 bracketSpacing: true
 endOfLine: lf
@@ -14,6 +13,8 @@ trailingComma: all
 useTabs: false
 vueIndentScriptAndStyle: true
 overrides:
-  - files: "*.json"
+  - files: '*.json'
     options:
       proseWrap: never
+plugins:
+  - prettier-plugin-tailwindcss
