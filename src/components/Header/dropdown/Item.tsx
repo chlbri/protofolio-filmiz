@@ -1,15 +1,14 @@
 import { Menu } from '@headlessui/react';
 import type { FC } from 'react';
-import useAppMachine from '../../../lib/abr/store';
+import { useSend } from '../../../lib/adapters';
 
 type Props = {
   value: string;
 };
 
 const DropdownMenuItem: FC<Props> = ({ value }) => {
-  const onClick = useAppMachine(
-    store => () => store.send({ type: 'CHANGE_LANGUAGE', value }),
-  );
+  const send = useSend('CHANGE_LANGUAGE');
+  const onClick = () => send({ value });
   return (
     <div className="w-10 md:w-24 md:py-1">
       <Menu.Item as="div">

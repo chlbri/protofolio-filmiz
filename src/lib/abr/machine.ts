@@ -14,6 +14,7 @@ export const machine = createMachine<TContext, TEvent>(
 
     states: {
       selection: {
+        initial: 'notselected',
         states: {
           notselected: {
             on: {
@@ -30,11 +31,11 @@ export const machine = createMachine<TContext, TEvent>(
         },
       },
       language: {
+        initial: 'normal',
         states: {
           normal: {
             on: {
               CHANGE_LANGUAGE: {
-                actions: 'changeLanguage',
                 target: 'changingLanguage',
               },
             },
@@ -43,7 +44,10 @@ export const machine = createMachine<TContext, TEvent>(
           changingLanguage: {
             invoke: {
               src: 'changeLanguage',
-              onDone: 'normal',
+              onDone: {
+                actions: 'changeLanguage',
+                target: 'normal',
+              },
               onError: 'normal',
             },
             exit: 'inc',
@@ -51,11 +55,11 @@ export const machine = createMachine<TContext, TEvent>(
         },
       },
       genre: {
+        initial: 'normal',
         states: {
           normal: {
             on: {
               CHANGE_GENRE: {
-                actions: 'changeGenre',
                 target: 'changingGenre',
               },
             },
@@ -64,7 +68,10 @@ export const machine = createMachine<TContext, TEvent>(
           changingGenre: {
             invoke: {
               src: 'changeGenre',
-              onDone: 'normal',
+              onDone: {
+                actions: 'changeGenre',
+                target: 'normal',
+              },
               onError: 'normal',
             },
             exit: 'inc',
@@ -77,21 +84,13 @@ export const machine = createMachine<TContext, TEvent>(
     actions: {
       inc: assign({ iterator: ctx => ctx.iterator + 1 }),
       changeLanguage: assign({
-        language: (ctx, ev) => {
-          if (ev.type === 'CHANGE_LANGUAGE') {
-            return ev.value ?? 'fr';
-          }
-          console.log(ctx);
-
-          return ctx.language;
+        language: (ctx, ev: any) => {
+          return ev.data ?? ctx.language;
         },
       }),
       changeGenre: assign({
-        genre: (ctx, ev) => {
-          if (ev.type === 'CHANGE_GENRE') {
-            return ev.value ?? 'fetchTrending';
-          }
-          return ctx.genre;
+        genre: (ctx, ev: any) => {
+          return ev.data ?? ctx.genre;
         },
       }),
       select: assign({

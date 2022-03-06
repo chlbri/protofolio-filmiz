@@ -1,9 +1,9 @@
-import useAppMachine from '../lib/abr/store';
+import { useSend } from '../lib/adapters';
 import type Movie from '../lib/ebr/Movie';
 import useIsOverflowed from './MouseEvents/useIsOverflowed';
 
 export default function useResult(value: Movie) {
-  const send = useAppMachine(store => store.send);
+  const send = useSend('SELECT');
   const {
     backdrop_path,
     poster_path,
@@ -17,7 +17,7 @@ export default function useResult(value: Movie) {
   const [yRef, disabled] = useIsOverflowed();
 
   const onClick = () => {
-    send({ type: 'SELECT', value });
+    send({ value });
   };
 
   return {
