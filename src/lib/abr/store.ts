@@ -1,4 +1,4 @@
-import zx from '@bemedev/middleware-zustand-xstate-fsm';
+import zx from 'zustand-middleware-xstate';
 import create from 'zustand';
 import { machine } from './machine';
 

@@ -1,36 +1,73 @@
-import { assign, createMachine } from '@xstate/fsm';
+import { assign, createMachine } from 'xstate';
 import type { TContext, TEvent } from './types';
 
 export const machine = createMachine<TContext, TEvent>(
   {
     context: {
+      iterator: 0,
       genre: 'fetchTrending',
       selected: undefined,
       // movies: [],
       language: 'fr',
     },
-    initial: 'notselected',
+    type: 'parallel',
+
     states: {
-      notselected: {
-        on: {
-          SELECT: { target: 'selected', actions: 'select' },
-          CHANGE_LANGUAGE: {
-            actions: 'changeLanguage',
+      selection: {
+        states: {
+          notselected: {
+            on: {
+              SELECT: { target: 'selected', actions: 'select' },
+            },
+            exit: 'inc',
           },
-          CHANGE_GENRE: {
-            actions: 'changeGenre',
+          selected: {
+            on: {
+              SELECT: { target: 'notselected', actions: 'select' },
+            },
+            exit: 'inc',
           },
         },
       },
-      selected: {
-        on: {
-          SELECT: { target: 'notselected', actions: 'select' },
-
-          CHANGE_LANGUAGE: {
-            actions: 'changeLanguage',
+      language: {
+        states: {
+          normal: {
+            on: {
+              CHANGE_LANGUAGE: {
+                actions: 'changeLanguage',
+                target: 'changingLanguage',
+              },
+            },
+            exit: 'inc',
           },
-          CHANGE_GENRE: {
-            actions: 'changeGenre',
+          changingLanguage: {
+            invoke: {
+              src: 'changeLanguage',
+              onDone: 'normal',
+              onError: 'normal',
+            },
+            exit: 'inc',
+          },
+        },
+      },
+      genre: {
+        states: {
+          normal: {
+            on: {
+              CHANGE_GENRE: {
+                actions: 'changeGenre',
+                target: 'changingGenre',
+              },
+            },
+            exit: 'inc',
+          },
+          changingGenre: {
+            invoke: {
+              src: 'changeGenre',
+              onDone: 'normal',
+              onError: 'normal',
+            },
+            exit: 'inc',
           },
         },
       },
@@ -38,6 +75,7 @@ export const machine = createMachine<TContext, TEvent>(
   },
   {
     actions: {
+      inc: assign({ iterator: ctx => ctx.iterator + 1 }),
       changeLanguage: assign({
         language: (ctx, ev) => {
           if (ev.type === 'CHANGE_LANGUAGE') {
