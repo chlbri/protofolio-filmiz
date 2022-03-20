@@ -1,35 +1,24 @@
 import Head from 'next/head';
-import { FC, useEffect, useState as useState_R } from 'react';
+import { FC, useEffect } from 'react';
+import { useSend, useState } from '../lib/adapters';
+import { Requests } from '../lib/ebr/Requests';
 import Header from './Header';
 import Modal from './modal';
 import Nav from './Nav';
 import Movies from './Results';
-import { useState } from '../lib/adapters';
-import Movie from '../lib/ebr/Movie';
-import requests from '../lib/ebr/Requests';
 
-const _Layout: FC = () => {
-  //TODO add Internationalization
-  const lang = useState(state => state.context.language);
-  const [movies, setMovies] = useState_R<Movie[]>([]);
-  //TODO add Internationalization
+type Props = {
+  value: Requests;
+};
+
+const _Layout: FC<Props> = ({ value }) => {
+  const movies = useState(state => state.context.movies);
+  const send = useSend('CHANGE_GENRE');
   useEffect(() => {
-    if (!process.env.TMDB_API_KEY)
-      throw new Error("La clé de l'api doit être défine");
+    send({ value });
+  }, [send, value]);
 
-    const TMDB_API_URL = process.env.TMDB_API_URL;
-    if (!TMDB_API_URL) throw new Error("L'url de l'api doit être défine");
-    const url = `${TMDB_API_URL}/${requests.Trending.url}&language=${lang}`;
-
-    async function getF() {
-      const _movies = await fetch(url)
-        .then(data => data.json())
-        .then<Movie[]>(data => data.results)
-        .catch(() => []);
-      setMovies(_movies);
-    }
-    getF();
-  }, [lang, setMovies]);
+  //TODO add Internationalization
 
   return !movies.length ? null : (
     <div className="bg-[#06202A] text-gray-300">

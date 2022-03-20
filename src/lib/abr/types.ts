@@ -7,6 +7,7 @@ export type TContext = {
   genre: Requests;
   movies: Movie[];
   language: string;
+  scrollNavbar: number;
 };
 
 export type TEvent =
@@ -15,4 +16,6 @@ export type TEvent =
       value?: Requests;
     }
   | { type: 'SELECT'; value?: Movie }
-  | { type: 'CHANGE_LANGUAGE'; value?: string };
+  | { type: 'CHANGE_LANGUAGE'; value?: string }
+  | { type: 'FETCH' }
+  | { type: 'SCROLL_NAVBAR'; value: number };

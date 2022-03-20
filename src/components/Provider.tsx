@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { machine } from '../lib/abr/machine';
 import MachineContext from '../lib/adapters';
-import { Requests } from '../lib/ebr/Requests';
+import Movie from '../lib/ebr/Movie';
+import requests, { Requests } from '../lib/ebr/Requests';
 
 const Provider: FC = ({ children }) => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const Provider: FC = ({ children }) => {
         ...machine.context,
         genre,
         language,
+        // scrollNavbar,
       })
       .withConfig({
         services: {
@@ -72,6 +74,16 @@ const Provider: FC = ({ children }) => {
                 .then(() => genre)
                 .catch(() => genre);
             }
+          },
+          changeMovies: async ctx => {
+            const TMDB_API_URL = process.env.TMDB_API_URL;
+            const url = `${TMDB_API_URL}/${
+              requests[ctx.genre].url
+            }&language=${ctx.language}`;
+
+            return fetch(url)
+              .then(data => data.json())
+              .then<Movie[]>(data => data.results);
           },
         },
       }),
