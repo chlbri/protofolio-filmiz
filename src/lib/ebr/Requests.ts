@@ -1,47 +1,47 @@
 const env = process.env.TMDB_API_KEY;
 
 const requests = {
-  fetchTrending: {
+  Trending: {
     title: 'Tendance',
     url: `trending/movie/week?api_key=${env}&sort_by=popularity.desc`,
   },
-  fetchTopRated: {
+  TopRated: {
     title: 'Les mieux notés',
     url: `movie/top_rated?api_key=${env}&sort_by=popularity.desc`,
   },
-  fetchActionsMovies: {
+  ActionsMovies: {
     title: 'Action',
     url: `discover/movie?api_key=${env}&with_genres=28`,
   },
-  fetchComedyMovies: {
+  ComedyMovies: {
     title: 'Comédie',
     url: `discover/movie?api_key=${env}&with_genres=35`,
   },
-  fetchHorrorMovies: {
+  HorrorMovies: {
     title: 'Horreur',
     url: `discover/movie?api_key=${env}&with_genres=27`,
   },
-  fetchRomanceMovies: {
+  RomanceMovies: {
     title: 'Amour',
     url: `discover/movie?api_key=${env}&with_genres=10749`,
   },
-  fetchMystery: {
+  Mystery: {
     title: 'Mystère',
     url: `discover/movie?api_key=${env}&with_genres=9648`,
   },
-  fetchSciFi: {
+  SciFi: {
     title: 'Sci-Fi',
     url: `discover/movie?api_key=${env}&with_genres=878`,
   },
-  fetchWestern: {
+  Western: {
     title: 'Western',
     url: `discover/movie?api_key=${env}&with_genres=37`,
   },
-  fetchAnimation: {
+  Animation: {
     title: 'Animation',
     url: `discover/movie?api_key=${env}&with_genres=16`,
   },
-  fetchTV: {
+  TV: {
     title: 'Téléfilm',
     url: `discover/movie?api_key=${env}&with_genres=10770`,
   },

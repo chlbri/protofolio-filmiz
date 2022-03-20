@@ -7,10 +7,8 @@ import { Requests } from '../lib/ebr/Requests';
 
 const Provider: FC = ({ children }) => {
   const router = useRouter();
-
-  const genre = (
-    !router.query.genre ? 'fetchTrending' : router.query.genre
-  ) as Requests;
+  const routerPath = router.pathname.replace('/', '');
+  const genre = routerPath === '' ? 'Trending' : (routerPath as Requests);
 
   const language = (
     !router.query.lang ? 'fr' : router.query.lang
@@ -29,13 +27,26 @@ const Provider: FC = ({ children }) => {
             const genre = ctx.genre;
             if (ev.type === 'CHANGE_LANGUAGE') {
               const lang = ev.value;
+              // if (!process.env.TMDB_API_KEY)
+              //   throw new Error("La clé de l'api doit être défine");
+
+              // const TMDB_API_URL = process.env.TMDB_API_URL;
+              // if (!TMDB_API_URL)
+              //   throw new Error("L'url de l'api doit être défine");
+              // const url = `${TMDB_API_URL}/${
+              //   requests.fetchTopRated.url
+              // }&language=${lang ?? 'fr'}`;
+              // const movies = await fetch(url)
+              //   .then(data => data.json())
+              //   .then<Movie[]>(data => data.results)
+              //   .catch(() => undefined);
 
               if (ctx.language === lang) return;
 
-              const query = { genre, lang };
+              const query = { lang };
               return await router
                 .push({
-                  pathname: '/',
+                  pathname: `/${genre == 'Trending' ? '' : genre}`,
                   query,
                 })
                 .then(() => lang)
@@ -50,13 +61,12 @@ const Provider: FC = ({ children }) => {
               if (ctx.genre === genre) return;
 
               const query = {
-                genre,
                 lang,
               };
 
               return await router
                 .push({
-                  pathname: '/',
+                  pathname: `/${genre == 'Trending' ? '' : genre}`,
                   query,
                 })
                 .then(() => genre)
@@ -66,6 +76,7 @@ const Provider: FC = ({ children }) => {
         },
       }),
   );
+
   return (
     <MachineContext.Provider {...{ value }}>
       {children}

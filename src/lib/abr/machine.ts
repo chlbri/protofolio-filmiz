@@ -1,16 +1,21 @@
 import { assign, createMachine } from 'xstate';
 import type { TContext, TEvent } from './types';
 
-export const machine = createMachine<TContext, TEvent>(
+export const machine = createMachine(
   {
     context: {
       iterator: 0,
-      genre: 'fetchTrending',
+      genre: 'Trending',
       selected: undefined,
-      // movies: [],
+      movies: [],
       language: 'fr',
     },
     type: 'parallel',
+    tsTypes: {} as import('./machine.typegen').Typegen0,
+    schema: {
+      context: {} as TContext,
+      events: {} as TEvent,
+    },
 
     states: {
       selection: {

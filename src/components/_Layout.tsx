@@ -1,14 +1,14 @@
 import Head from 'next/head';
 import { FC, useEffect, useState as useState_R } from 'react';
-import Header from '../components/Header';
-import Modal from '../components/modal';
-import Nav from '../components/Nav';
-import Movies from '../components/Results';
+import Header from './Header';
+import Modal from './modal';
+import Nav from './Nav';
+import Movies from './Results';
 import { useState } from '../lib/adapters';
 import Movie from '../lib/ebr/Movie';
 import requests from '../lib/ebr/Requests';
 
-const Home: FC = () => {
+const _Layout: FC = () => {
   //TODO add Internationalization
   const lang = useState(state => state.context.language);
   const [movies, setMovies] = useState_R<Movie[]>([]);
@@ -34,7 +34,7 @@ const Home: FC = () => {
   return !movies.length ? null : (
     <div className="bg-[#06202A] text-gray-300">
       <Head>
-        <title>@bemedev/filmiz 2.0</title>
+        <title>filmiz 2.0</title>
       </Head>
       <Header />
 
@@ -48,4 +48,4 @@ const Home: FC = () => {
   );
 };
 
-export default Home;
+export default _Layout;

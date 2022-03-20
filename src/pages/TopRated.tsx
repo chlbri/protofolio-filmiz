@@ -9,7 +9,6 @@ import Movie from '../lib/ebr/Movie';
 import requests from '../lib/ebr/Requests';
 
 const Home: FC = () => {
-  //TODO add Internationalization
   const lang = useState(state => state.context.language);
   const [movies, setMovies] = useState_R<Movie[]>([]);
   //TODO add Internationalization
@@ -19,7 +18,7 @@ const Home: FC = () => {
 
     const TMDB_API_URL = process.env.TMDB_API_URL;
     if (!TMDB_API_URL) throw new Error("L'url de l'api doit être défine");
-    const url = `${TMDB_API_URL}/${requests.Trending.url}&language=${lang}`;
+    const url = `${TMDB_API_URL}/${requests.TopRated.url}&language=${lang}`;
 
     async function getF() {
       const _movies = await fetch(url)

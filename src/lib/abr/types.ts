@@ -5,7 +5,7 @@ export type TContext = {
   iterator: number;
   selected: Movie | undefined;
   genre: Requests;
-  // movies: Movie[];
+  movies: Movie[];
   language: string;
 };
 
