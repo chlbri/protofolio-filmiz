@@ -172,8 +172,6 @@ export const machine = createMachine(
           if (ev.type === 'SELECT') {
             return ev.value;
           }
-          console.log(_);
-
           return undefined;
         },
       }),

@@ -13,7 +13,6 @@ const Nav: FC<Props> = ({ className = '' }) => {
   const left = useState(state => state.context.scrollNavbar);
   const scroll = useSend('SCROLL_NAVBAR');
   useEffect(() => {
-    console.log(left);
     ref.current?.scrollTo({
       left,
     });
