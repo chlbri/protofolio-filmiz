@@ -84,7 +84,8 @@ yarn.lock
 .parcel-cache
 
 # Next.js build output
-.next
+/.next
+/out
 
 # vercel
 .vercel
