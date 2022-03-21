@@ -1,6 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { useInterpret } from '@xstate/react';
-import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { machine } from '../lib/abr/machine';
 import MachineContext from '../lib/adapters';
@@ -9,8 +8,6 @@ import { MOVIES_KEY } from '../lib/ebr/others';
 import requests from '../lib/ebr/Requests';
 
 const Provider: FC = ({ children }) => {
-  const { push } = useRouter();
-
   const value = useInterpret(
     machine.withConfig({
       services: {
@@ -18,26 +15,14 @@ const Provider: FC = ({ children }) => {
           if (ev.type === 'CHANGE_LANGUAGE') {
             const lang = ev.value;
 
-            if (ctx.language === lang) return lang;
-
-            return await push({
-              pathname: '/',
-            })
-              .then(() => lang)
-              .catch(() => lang);
+            return lang;
           }
         },
         changeGenre: async (ctx, ev) => {
           if (ev.type === 'CHANGE_GENRE') {
             const genre = ev.value;
 
-            if (ctx.genre === genre) return genre;
-
-            return await push({
-              pathname: '/',
-            })
-              .then(() => genre)
-              .catch(() => genre);
+            return genre;
           }
         },
         changeMovies: async ctx => {
