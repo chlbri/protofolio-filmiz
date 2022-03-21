@@ -17,8 +17,10 @@ const Nav: FC<Props> = ({ className = '' }) => {
     ref.current?.scrollTo({
       left,
     });
+    console.log('arrrhhh');
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [left]);
   return (
     <nav className={'relative ' + className}>
       <div

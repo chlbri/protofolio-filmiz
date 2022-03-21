@@ -1,13 +1,13 @@
 import Head from 'next/head';
 import { FC, useEffect } from 'react';
-import { useSend, useState } from '../lib/adapters';
+import { useSend } from '../lib/adapters';
 import Header from './Header';
 import Modal from './modal';
 import Nav from './Nav';
 import Movies from './Results';
 
 const _Layout: FC = () => {
-  const movies = useState(state => state.context.movies);
+  // const value = useState(state => state.context.genre);
   const load = useSend('LOAD');
   useEffect(() => {
     load({});
@@ -23,7 +23,7 @@ const _Layout: FC = () => {
 
       <Nav />
 
-      <Movies movies={movies} />
+      <Movies />
 
       <Nav className="pb-5" />
       <Modal />

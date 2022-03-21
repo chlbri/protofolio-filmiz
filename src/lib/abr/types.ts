@@ -17,5 +17,5 @@ export type TEvent =
     }
   | { type: 'SELECT'; value?: Movie }
   | { type: 'CHANGE_LANGUAGE'; value?: string }
-  | { type: 'LOAD' }
+  | { type: 'LOAD' | 'FETCH' }
   | { type: 'SCROLL_NAVBAR'; value: number };

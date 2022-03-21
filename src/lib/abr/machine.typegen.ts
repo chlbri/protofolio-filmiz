@@ -8,33 +8,43 @@ export interface Typegen0 {
     loadScroll: 'LOAD';
     loadGenre: 'LOAD';
     loadLanguage: 'LOAD';
-    loadMovies: 'LOAD';
-    select: 'SELECT';
-    changeLanguage: 'done.invoke.(machine).language.changingLanguage:invocation[0]';
     changeMovies:
-      | 'done.invoke.(machine).language.fetching:invocation[0]'
-      | 'done.invoke.(machine).genre.fetching:invocation[0]';
-    changeGenre: 'done.invoke.(machine).genre.changingGenre:invocation[0]';
+      | 'done.invoke.(machine).starting:invocation[0]'
+      | 'done.invoke.(machine).started.language.fetching:invocation[0]'
+      | 'done.invoke.(machine).started.genre.fetching:invocation[0]';
+    changeLocalMovies:
+      | 'done.invoke.(machine).starting:invocation[0]'
+      | 'done.invoke.(machine).started.language.fetching:invocation[0]'
+      | 'done.invoke.(machine).started.genre.fetching:invocation[0]';
+    select: 'SELECT';
+    changeLanguage: 'done.invoke.(machine).started.language.changingLanguage:invocation[0]';
+    changeGenre: 'done.invoke.(machine).started.genre.changingGenre:invocation[0]';
+    loadMovies: 'LOAD';
     inc: 'xstate.init';
   };
   internalEvents: {
-    'done.invoke.(machine).language.changingLanguage:invocation[0]': {
-      type: 'done.invoke.(machine).language.changingLanguage:invocation[0]';
+    'done.invoke.(machine).starting:invocation[0]': {
+      type: 'done.invoke.(machine).starting:invocation[0]';
       data: unknown;
       __tip: 'See the XState TS docs to learn how to strongly type this.';
     };
-    'done.invoke.(machine).language.fetching:invocation[0]': {
-      type: 'done.invoke.(machine).language.fetching:invocation[0]';
+    'done.invoke.(machine).started.language.fetching:invocation[0]': {
+      type: 'done.invoke.(machine).started.language.fetching:invocation[0]';
       data: unknown;
       __tip: 'See the XState TS docs to learn how to strongly type this.';
     };
-    'done.invoke.(machine).genre.fetching:invocation[0]': {
-      type: 'done.invoke.(machine).genre.fetching:invocation[0]';
+    'done.invoke.(machine).started.genre.fetching:invocation[0]': {
+      type: 'done.invoke.(machine).started.genre.fetching:invocation[0]';
       data: unknown;
       __tip: 'See the XState TS docs to learn how to strongly type this.';
     };
-    'done.invoke.(machine).genre.changingGenre:invocation[0]': {
-      type: 'done.invoke.(machine).genre.changingGenre:invocation[0]';
+    'done.invoke.(machine).started.language.changingLanguage:invocation[0]': {
+      type: 'done.invoke.(machine).started.language.changingLanguage:invocation[0]';
+      data: unknown;
+      __tip: 'See the XState TS docs to learn how to strongly type this.';
+    };
+    'done.invoke.(machine).started.genre.changingGenre:invocation[0]': {
+      type: 'done.invoke.(machine).started.genre.changingGenre:invocation[0]';
       data: unknown;
       __tip: 'See the XState TS docs to learn how to strongly type this.';
     };
@@ -42,57 +52,71 @@ export interface Typegen0 {
     'xstate.init': { type: 'xstate.init' };
   };
   invokeSrcNameMap: {
-    changeLanguage: 'done.invoke.(machine).language.changingLanguage:invocation[0]';
     changeMovies:
-      | 'done.invoke.(machine).language.fetching:invocation[0]'
-      | 'done.invoke.(machine).genre.fetching:invocation[0]';
-    changeGenre: 'done.invoke.(machine).genre.changingGenre:invocation[0]';
+      | 'done.invoke.(machine).starting:invocation[0]'
+      | 'done.invoke.(machine).started.language.fetching:invocation[0]'
+      | 'done.invoke.(machine).started.genre.fetching:invocation[0]';
+    changeLanguage: 'done.invoke.(machine).started.language.changingLanguage:invocation[0]';
+    changeGenre: 'done.invoke.(machine).started.genre.changingGenre:invocation[0]';
   };
   missingImplementations: {
     actions: never;
-    services: 'changeLanguage' | 'changeMovies' | 'changeGenre';
+    services: 'changeMovies' | 'changeLanguage' | 'changeGenre';
     guards: never;
     delays: never;
   };
   eventsCausingServices: {
-    changeLanguage: 'CHANGE_LANGUAGE';
     changeMovies: '';
+    changeLanguage: 'CHANGE_LANGUAGE';
     changeGenre: 'CHANGE_GENRE';
   };
   eventsCausingGuards: {
+    moviesArrayIsEmpty: '';
     checkEnvironmentsVariables: '';
   };
   eventsCausingDelays: {};
   matchesStates:
-    | 'selection'
-    | 'selection.notselected'
-    | 'selection.selected'
-    | 'language'
-    | 'language.normal'
-    | 'language.changingLanguage'
-    | 'language.nextFetch'
-    | 'language.fetching'
-    | 'language.caching'
-    | 'genre'
-    | 'genre.normal'
-    | 'genre.changingGenre'
-    | 'genre.nextFetch'
-    | 'genre.fetching'
-    | 'genre.caching'
+    | 'idle'
+    | 'preparing'
+    | 'starting'
+    | 'error'
+    | 'started'
+    | 'started.selection'
+    | 'started.selection.notselected'
+    | 'started.selection.selected'
+    | 'started.language'
+    | 'started.language.normal'
+    | 'started.language.changingLanguage'
+    | 'started.language.nextFetch'
+    | 'started.language.fetching'
+    | 'started.language.caching'
+    | 'started.genre'
+    | 'started.genre.normal'
+    | 'started.genre.changingGenre'
+    | 'started.genre.nextFetch'
+    | 'started.genre.fetching'
+    | 'started.genre.caching'
+    | 'fetch'
     | {
-        selection?: 'notselected' | 'selected';
-        language?:
-          | 'normal'
-          | 'changingLanguage'
-          | 'nextFetch'
-          | 'fetching'
-          | 'caching';
-        genre?:
-          | 'normal'
-          | 'changingGenre'
-          | 'nextFetch'
-          | 'fetching'
-          | 'caching';
+        started?:
+          | 'selection'
+          | 'language'
+          | 'genre'
+          | {
+              selection?: 'notselected' | 'selected';
+              language?:
+                | 'normal'
+                | 'changingLanguage'
+                | 'nextFetch'
+                | 'fetching'
+                | 'caching';
+              genre?:
+                | 'normal'
+                | 'changingGenre'
+                | 'nextFetch'
+                | 'fetching'
+                | 'caching';
+            };
       };
   tags: never;
 }

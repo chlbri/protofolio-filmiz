@@ -28,7 +28,7 @@ export const machine = createMachine(
       language: 'fr',
       scrollNavbar: 0,
     },
-    type: 'parallel',
+    initial: 'idle',
     tsTypes: {} as import('./machine.typegen').Typegen0,
     schema: {
       context: {} as TContext,
@@ -43,135 +43,170 @@ export const machine = createMachine(
       SCROLL_NAVBAR: {
         actions: ['scroll', 'assignScrollNavbar'],
       },
-      LOAD: {
-        actions: ['loadScroll', 'loadGenre', 'loadLanguage', 'loadMovies'],
-      },
     },
     states: {
-      selection: {
-        initial: 'notselected',
-        states: {
-          notselected: {
-            on: {
-              SELECT: { target: 'selected', actions: 'select' },
-            },
-            exit: 'inc',
-          },
-          selected: {
-            on: {
-              SELECT: { target: 'notselected', actions: 'select' },
-            },
-            exit: 'inc',
+      idle: {
+        on: {
+          LOAD: {
+            actions: ['loadScroll', 'loadGenre', 'loadLanguage'],
+            target: 'preparing',
           },
         },
       },
-      language: {
-        initial: 'normal',
+      preparing: {
+        entry: 'loadMovies',
+        always: [
+          {
+            cond: 'moviesArrayIsEmpty',
+            target: 'starting',
+          },
+          'started',
+        ],
+      },
+      starting: {
+        invoke: {
+          src: 'changeMovies',
+          onDone: {
+            actions: ['changeMovies', 'changeLocalMovies'],
+            target: 'started',
+          },
+          onError: 'error',
+        },
+        exit: 'inc',
+      },
+      error: {},
+      started: {
+        type: 'parallel',
         states: {
-          normal: {
-            on: {
-              CHANGE_LANGUAGE: {
-                target: 'changingLanguage',
+          selection: {
+            initial: 'notselected',
+            states: {
+              notselected: {
+                on: {
+                  SELECT: { target: 'selected', actions: 'select' },
+                },
+                exit: 'inc',
+              },
+              selected: {
+                on: {
+                  SELECT: { target: 'notselected', actions: 'select' },
+                },
+                exit: 'inc',
               },
             },
-            exit: 'inc',
           },
-          changingLanguage: {
-            invoke: {
-              src: 'changeLanguage',
-              onDone: {
-                actions: 'changeLanguage',
-                target: 'nextFetch',
+          language: {
+            initial: 'normal',
+            states: {
+              normal: {
+                on: {
+                  CHANGE_LANGUAGE: {
+                    target: 'changingLanguage',
+                  },
+                },
+                exit: 'inc',
               },
-              onError: 'normal',
-            },
-            exit: 'inc',
-          },
-          nextFetch: {
-            always: [
-              {
-                cond: 'checkEnvironmentsVariables',
-                target: 'fetching',
+              changingLanguage: {
+                invoke: {
+                  src: 'changeLanguage',
+                  onDone: {
+                    actions: 'changeLanguage',
+                    target: 'nextFetch',
+                  },
+                  onError: 'normal',
+                },
+                exit: 'inc',
               },
-              'normal',
-            ],
-          },
-          fetching: {
-            invoke: {
-              src: 'changeMovies',
-              onDone: {
-                actions: 'changeMovies',
-                target: 'caching',
+              nextFetch: {
+                always: [
+                  {
+                    cond: 'checkEnvironmentsVariables',
+                    target: 'fetching',
+                  },
+                  'normal',
+                ],
               },
-              onError: 'normal',
+              fetching: {
+                invoke: {
+                  src: 'changeMovies',
+                  onDone: {
+                    actions: ['changeMovies', 'changeLocalMovies'],
+                    target: 'caching',
+                  },
+                  onError: 'normal',
+                },
+                exit: 'inc',
+              },
+              caching: {
+                after: {
+                  70: 'normal',
+                },
+                exit: 'inc',
+              },
             },
-            exit: 'inc',
           },
-          caching: {
-            after: {
-              70: 'normal',
+          genre: {
+            initial: 'normal',
+            states: {
+              normal: {
+                on: {
+                  CHANGE_GENRE: {
+                    target: 'changingGenre',
+                  },
+                },
+                exit: 'inc',
+              },
+              changingGenre: {
+                invoke: {
+                  src: 'changeGenre',
+                  onDone: {
+                    actions: 'changeGenre',
+                    target: 'nextFetch',
+                  },
+                  onError: 'normal',
+                },
+                exit: 'inc',
+              },
+              nextFetch: {
+                always: [
+                  {
+                    cond: 'checkEnvironmentsVariables',
+                    target: 'fetching',
+                  },
+                  'normal',
+                ],
+                exit: 'inc',
+              },
+              fetching: {
+                invoke: {
+                  src: 'changeMovies',
+                  onDone: {
+                    actions: ['changeMovies', 'changeLocalMovies'],
+                    target: 'caching',
+                  },
+                  onError: 'normal',
+                },
+                exit: 'inc',
+              },
+              caching: {
+                after: {
+                  70: 'normal',
+                },
+                exit: 'inc',
+              },
             },
-            exit: 'inc',
           },
         },
       },
-      genre: {
-        initial: 'normal',
-        states: {
-          normal: {
-            on: {
-              CHANGE_GENRE: {
-                target: 'changingGenre',
-              },
-            },
-            exit: 'inc',
-          },
-          changingGenre: {
-            invoke: {
-              src: 'changeGenre',
-              onDone: {
-                actions: 'changeGenre',
-                target: 'nextFetch',
-              },
-              onError: 'normal',
-            },
-            exit: 'inc',
-          },
-          nextFetch: {
-            always: [
-              {
-                cond: 'checkEnvironmentsVariables',
-                target: 'fetching',
-              },
-              'normal',
-            ],
-            exit: 'inc',
-          },
-          fetching: {
-            invoke: {
-              src: 'changeMovies',
-              onDone: {
-                actions: 'changeMovies',
-                target: 'caching',
-              },
-              onError: 'normal',
-            },
-            exit: 'inc',
-          },
-          caching: {
-            after: {
-              70: 'normal',
-            },
-            exit: 'inc',
-          },
-        },
-      },
+      fetch: {},
     },
   },
   {
     guards: {
-      checkEnvironmentsVariables: () =>
-        !!process.env.TMDB_API_KEY && !!process.env.TMDB_API_URL,
+      checkEnvironmentsVariables: () => {
+        return !!process.env.TMDB_API_KEY && !!process.env.TMDB_API_URL;
+      },
+      moviesArrayIsEmpty: ctx => ctx.movies.length < 1,
     },
     actions: {
       inc: assign({ iterator: ctx => ctx.iterator + 1 }),
@@ -222,35 +257,35 @@ export const machine = createMachine(
       }),
 
       changeMovies: assign({
-        movies: (ctx, ev) => {
-          const results = ev.data ?? ctx.movies;
-          const previousData = localStorage.getItem(MOVIES_KEY);
-          if (!previousData) {
-            localStorage.setItem(
-              MOVIES_KEY,
-              JSON.stringify({
-                [ctx.genre]: {
-                  [ctx.language]: {
-                    results,
-                    lastDate: Temporal.Now.plainDateTimeISO().toString(),
-                  },
-                },
-              }),
-            );
-          } else {
-            const _data = merge(JSON.parse(previousData), {
+        movies: (ctx, ev) => ev.data ?? ctx.movies,
+      }),
+      changeLocalMovies: (ctx, ev) => {
+        const results = ev.data ?? ctx.movies;
+        const previousData = localStorage.getItem(MOVIES_KEY);
+        if (!previousData) {
+          localStorage.setItem(
+            MOVIES_KEY,
+            JSON.stringify({
               [ctx.genre]: {
                 [ctx.language]: {
                   results,
                   lastDate: Temporal.Now.plainDateTimeISO().toString(),
                 },
               },
-            });
-            localStorage.setItem(MOVIES_KEY, JSON.stringify(_data));
-          }
-          return results;
-        },
-      }),
+            }),
+          );
+        } else {
+          const _data = merge(JSON.parse(previousData), {
+            [ctx.genre]: {
+              [ctx.language]: {
+                results,
+                lastDate: Temporal.Now.plainDateTimeISO().toString(),
+              },
+            },
+          });
+          localStorage.setItem(MOVIES_KEY, JSON.stringify(_data));
+        }
+      },
     },
   },
 );
