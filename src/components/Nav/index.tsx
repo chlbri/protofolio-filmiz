@@ -11,13 +11,16 @@ type Props = {
 const Nav: FC<Props> = ({ className = '' }) => {
   const ref = useRef<HTMLDivElement>(null);
   const left = useState(state => state.context.scrollNavbar);
+  const isChangingGenre = useState(
+    state => (state.value as any).genre === 'changingGenre',
+  );
   const scroll = useSend('SCROLL_NAVBAR');
   useEffect(() => {
     ref.current?.scrollTo({
       left,
     });
   }, [left]);
-  return (
+  return isChangingGenre ? null : (
     <nav className={'relative ' + className}>
       <div
         ref={ref}
@@ -26,14 +29,13 @@ const Nav: FC<Props> = ({ className = '' }) => {
           scroll({ value: e.currentTarget.scrollLeft });
         }}
       >
-        {Object.entries(requests).map(([id, { title, url }]) => (
+        {Object.entries(requests).map(([id, { title }]) => (
           // eslint-disable-next-line react/jsx-key
           <Item
             {...{
               key: id,
               genre: id as Requests,
               title,
-              url,
             }}
           />
         ))}

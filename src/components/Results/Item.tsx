@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import { ThumbUpIcon } from '@heroicons/react/outline';
 import Tippy from '@tippyjs/react';
-import Image from 'next/image';
 import { forwardRef, memo } from 'react';
 import 'tippy.js/themes/material.css';
 import useResult from '../../hooks/useResult';
@@ -44,14 +44,13 @@ const ItemResult = forwardRef<HTMLDivElement, Props>(({ result }, ref) => {
             </div>
           </Tippy>
 
-          <Image
+          <img
             className="mt-5 rounded-lg"
-            layout="responsive"
             src={src}
             width={1920}
             height={1080}
             alt={original_title}
-            objectFit="cover"
+            // objectFit="cover"
           />
           <div>
             <p className="max-w-md truncate px-5">{overview}</p>

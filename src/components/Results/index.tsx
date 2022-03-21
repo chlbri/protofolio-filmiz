@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { FC } from 'react';
 import FlipMove from 'react-flip-move';
 import Movie from '../../lib/ebr/Movie';
 import ItemResult from './Item';

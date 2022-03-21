@@ -1,26 +1,21 @@
 import Head from 'next/head';
 import { FC, useEffect } from 'react';
 import { useSend, useState } from '../lib/adapters';
-import { Requests } from '../lib/ebr/Requests';
 import Header from './Header';
 import Modal from './modal';
 import Nav from './Nav';
 import Movies from './Results';
 
-type Props = {
-  value: Requests;
-};
-
-const _Layout: FC<Props> = ({ value }) => {
+const _Layout: FC = () => {
   const movies = useState(state => state.context.movies);
-  const send = useSend('CHANGE_GENRE');
+  const value = useState(state => state.context.genre);
+  const load = useSend('CHANGE_GENRE');
   useEffect(() => {
-    send({ value });
-  }, [send, value]);
-
+    load({ value });
+  });
   //TODO add Internationalization
 
-  return !movies.length ? null : (
+  return (
     <div className="bg-[#06202A] text-gray-300">
       <Head>
         <title>filmiz 2.0</title>

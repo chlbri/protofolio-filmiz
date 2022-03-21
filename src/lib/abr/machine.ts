@@ -1,6 +1,13 @@
+import { Temporal } from '@js-temporal/polyfill';
+import merge from 'lodash.merge';
 import { assign, createMachine } from 'xstate';
 import Movie from '../ebr/Movie';
-import { SCROLL_KEY } from '../ebr/others';
+import {
+  GENRE_KEY,
+  LANGUAGE_KEY,
+  MOVIES_KEY,
+  SCROLL_KEY,
+} from '../ebr/others';
 import { Requests } from '../ebr/Requests';
 import type { TContext, TEvent } from './types';
 
@@ -159,12 +166,18 @@ export const machine = createMachine(
       inc: assign({ iterator: ctx => ctx.iterator + 1 }),
       changeLanguage: assign({
         language: (ctx, ev) => {
-          return ev.data ?? ctx.language;
+          const data = ev.data ?? ctx.language;
+          localStorage.setItem(LANGUAGE_KEY, data);
+
+          return data;
         },
       }),
       changeGenre: assign({
         genre: (ctx, ev) => {
-          return ev.data ?? ctx.genre;
+          const data = ev.data ?? ctx.genre;
+          localStorage.setItem(GENRE_KEY, data);
+
+          return data;
         },
       }),
       select: assign({
@@ -187,7 +200,32 @@ export const machine = createMachine(
 
       changeMovies: assign({
         movies: (ctx, ev) => {
-          return ev.data ?? ctx.movies;
+          const results = ev.data ?? ctx.movies;
+          const previousData = localStorage.getItem(MOVIES_KEY);
+          if (!previousData) {
+            localStorage.setItem(
+              MOVIES_KEY,
+              JSON.stringify({
+                [ctx.genre]: {
+                  [ctx.language]: {
+                    results,
+                    lastDate: Temporal.Now.plainDateTimeISO().toString(),
+                  },
+                },
+              }),
+            );
+          } else {
+            const _data = merge(JSON.parse(previousData), {
+              [ctx.genre]: {
+                [ctx.language]: {
+                  results,
+                  lastDate: Temporal.Now.plainDateTimeISO().toString(),
+                },
+              },
+            });
+            localStorage.setItem(MOVIES_KEY, JSON.stringify(_data));
+          }
+          return results;
         },
       }),
     },
