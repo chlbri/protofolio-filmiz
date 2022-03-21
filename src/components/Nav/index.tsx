@@ -11,16 +11,15 @@ type Props = {
 const Nav: FC<Props> = ({ className = '' }) => {
   const ref = useRef<HTMLDivElement>(null);
   const left = useState(state => state.context.scrollNavbar);
-  const isChangingGenre = useState(
-    state => (state.value as any).genre === 'changingGenre',
-  );
+
   const scroll = useSend('SCROLL_NAVBAR');
   useEffect(() => {
     ref.current?.scrollTo({
       left,
     });
-  }, [left]);
-  return isChangingGenre ? null : (
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return (
     <nav className={'relative ' + className}>
       <div
         ref={ref}

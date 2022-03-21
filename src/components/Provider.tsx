@@ -2,12 +2,6 @@ import { Temporal } from '@js-temporal/polyfill';
 import { useInterpret } from '@xstate/react';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import {
-  getLocalGenre,
-  getLocalLanguage,
-  getLocalMovies,
-  getLocalScroll,
-} from '../lib/abr/helpers';
 import { machine } from '../lib/abr/machine';
 import MachineContext from '../lib/adapters';
 import Movie from '../lib/ebr/Movie';
@@ -15,93 +9,80 @@ import { MOVIES_KEY } from '../lib/ebr/others';
 import requests from '../lib/ebr/Requests';
 
 const Provider: FC = ({ children }) => {
-  const router = useRouter();
-  const genre = getLocalGenre();
-  const language = getLocalLanguage();
-  const scrollNavbar = getLocalScroll();
-  const movies = getLocalMovies(genre, language);
+  const { push } = useRouter();
+
   const value = useInterpret(
-    machine
-      .withContext({
-        ...machine.context,
-        genre,
-        language,
-        movies,
-        scrollNavbar,
-      })
-      .withConfig({
-        services: {
-          changeLanguage: async (ctx, ev) => {
-            if (ev.type === 'CHANGE_LANGUAGE') {
-              const lang = ev.value;
+    machine.withConfig({
+      services: {
+        changeLanguage: async (ctx, ev) => {
+          if (ev.type === 'CHANGE_LANGUAGE') {
+            const lang = ev.value;
 
-              if (ctx.language === lang) return lang;
+            if (ctx.language === lang) return lang;
 
-              return await router
-                .push({
-                  pathname: '/',
-                })
-                .then(() => lang)
-                .catch(() => lang);
-            }
-          },
-          changeGenre: async (ctx, ev) => {
-            if (ev.type === 'CHANGE_GENRE') {
-              const genre = ev.value;
-
-              if (ctx.genre === genre) return genre;
-
-              return await router
-                .push({
-                  pathname: '/',
-                })
-                .then(() => genre)
-                .catch(() => genre);
-            }
-          },
-          changeMovies: async ctx => {
-            const TMDB_API_URL = process.env.TMDB_API_URL;
-            const url = `${TMDB_API_URL}/${
-              requests[ctx.genre].url
-            }&language=${ctx.language}`;
-            const data = localStorage.getItem(MOVIES_KEY);
-
-            if (data) {
-              const _lastFetchDate =
-                JSON.parse(data)?.[ctx.genre]?.[ctx.language]?.lastDate;
-
-              if (_lastFetchDate) {
-                const today = Temporal.Now.plainDateTimeISO().with({
-                  hour: 0,
-                  minute: 0,
-                  millisecond: 0,
-                  microsecond: 0,
-                  nanosecond: 0,
-                });
-
-                const lastFetchDate =
-                  Temporal.PlainDateTime.from(_lastFetchDate);
-                const duration = today.since(lastFetchDate).nanoseconds;
-                if (duration > 0) {
-                  return fetch(url)
-                    .then(data => data.json())
-                    .then<Movie[]>(data => data.results);
-                }
-              }
-              const movies =
-                JSON.parse(data)?.[ctx.genre]?.[ctx.language]?.results;
-
-              if (movies) {
-                return movies as Movie[];
-              }
-            }
-
-            return fetch(url)
-              .then(data => data.json())
-              .then<Movie[]>(data => data.results);
-          },
+            return await push({
+              pathname: '/',
+            })
+              .then(() => lang)
+              .catch(() => lang);
+          }
         },
-      }),
+        changeGenre: async (ctx, ev) => {
+          if (ev.type === 'CHANGE_GENRE') {
+            const genre = ev.value;
+
+            if (ctx.genre === genre) return genre;
+
+            return await push({
+              pathname: '/',
+            })
+              .then(() => genre)
+              .catch(() => genre);
+          }
+        },
+        changeMovies: async ctx => {
+          const TMDB_API_URL = process.env.TMDB_API_URL;
+          const url = `${TMDB_API_URL}/${
+            requests[ctx.genre].url
+          }&language=${ctx.language}`;
+          const data = localStorage.getItem(MOVIES_KEY);
+
+          if (data) {
+            const _lastFetchDate =
+              JSON.parse(data)?.[ctx.genre]?.[ctx.language]?.lastDate;
+
+            if (_lastFetchDate) {
+              const today = Temporal.Now.plainDateTimeISO().with({
+                hour: 0,
+                minute: 0,
+                millisecond: 0,
+                microsecond: 0,
+                nanosecond: 0,
+              });
+
+              const lastFetchDate =
+                Temporal.PlainDateTime.from(_lastFetchDate);
+              const duration = today.since(lastFetchDate).nanoseconds;
+              if (duration > 0) {
+                return fetch(url)
+                  .then(data => data.json())
+                  .then<Movie[]>(data => data.results);
+              }
+            }
+            const movies =
+              JSON.parse(data)?.[ctx.genre]?.[ctx.language]?.results;
+
+            if (movies) {
+              return movies as Movie[];
+            }
+          }
+
+          return fetch(url)
+            .then(data => data.json())
+            .then<Movie[]>(data => data.results);
+        },
+      },
+    }),
   );
 
   return (

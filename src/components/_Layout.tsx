@@ -8,12 +8,11 @@ import Movies from './Results';
 
 const _Layout: FC = () => {
   const movies = useState(state => state.context.movies);
-  const value = useState(state => state.context.genre);
-  const load = useSend('CHANGE_GENRE');
+  const load = useSend('LOAD');
   useEffect(() => {
-    load({ value });
-  });
-  //TODO add Internationalization
+    load({});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="bg-[#06202A] text-gray-300">

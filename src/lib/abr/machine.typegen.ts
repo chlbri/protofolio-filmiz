@@ -5,6 +5,10 @@ export interface Typegen0 {
   eventsCausingActions: {
     scroll: 'SCROLL_NAVBAR';
     assignScrollNavbar: 'SCROLL_NAVBAR';
+    loadScroll: 'LOAD';
+    loadGenre: 'LOAD';
+    loadLanguage: 'LOAD';
+    loadMovies: 'LOAD';
     select: 'SELECT';
     changeLanguage: 'done.invoke.(machine).language.changingLanguage:invocation[0]';
     changeMovies:

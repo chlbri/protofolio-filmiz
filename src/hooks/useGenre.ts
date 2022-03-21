@@ -1,10 +1,13 @@
+import { StateFrom } from 'xstate';
+import { machine } from '../lib/abr/machine';
 import { useSend, useState } from '../lib/adapters';
 import type { Requests } from '../lib/ebr/Requests';
 
+const selector = (state: StateFrom<typeof machine>) => state.context.genre;
+
 export default function useGenre(value: Requests) {
   const send = useSend('CHANGE_GENRE');
-  const genre = useState(state => state.context.genre);
-
+  const genre = useState(selector);
   const pink = value === genre;
 
   const className = `${

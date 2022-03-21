@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Temporal } from '@js-temporal/polyfill';
 import merge from 'lodash.merge';
 import { assign, createMachine } from 'xstate';
@@ -9,6 +10,12 @@ import {
   SCROLL_KEY,
 } from '../ebr/others';
 import { Requests } from '../ebr/Requests';
+import {
+  getLocalGenre,
+  getLocalLanguage,
+  getLocalMovies,
+  getLocalScroll,
+} from './helpers';
 import type { TContext, TEvent } from './types';
 
 export const machine = createMachine(
@@ -35,6 +42,9 @@ export const machine = createMachine(
     on: {
       SCROLL_NAVBAR: {
         actions: ['scroll', 'assignScrollNavbar'],
+      },
+      LOAD: {
+        actions: ['loadScroll', 'loadGenre', 'loadLanguage', 'loadMovies'],
       },
     },
     states: {
@@ -135,6 +145,7 @@ export const machine = createMachine(
               },
               'normal',
             ],
+            exit: 'inc',
           },
           fetching: {
             invoke: {
@@ -164,6 +175,18 @@ export const machine = createMachine(
     },
     actions: {
       inc: assign({ iterator: ctx => ctx.iterator + 1 }),
+      loadScroll: assign({
+        scrollNavbar: _ => getLocalScroll(),
+      }),
+      loadGenre: assign({
+        genre: _ => getLocalGenre(),
+      }),
+      loadLanguage: assign({
+        language: _ => getLocalLanguage(),
+      }),
+      loadMovies: assign({
+        movies: ctx => getLocalMovies(ctx.genre, ctx.language),
+      }),
       changeLanguage: assign({
         language: (ctx, ev) => {
           const data = ev.data ?? ctx.language;

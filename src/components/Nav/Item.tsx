@@ -9,6 +9,7 @@ export type ItemProps = {
 
 const Item: FC<ItemProps> = ({ genre, title }) => {
   const { onClick, className } = useGenre(genre);
+
   return <h2 {...{ onClick, className }}>{title}</h2>;
 };
 
